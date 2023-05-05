@@ -20,6 +20,43 @@ public class Secretary {
 		this.numberOfAud = numberOfAud;
 		this.numberOfAmph = numberOfAmph;
 	}
+
+
+	public ArrayList<Course> getCourseList() {
+		return courseList;
+	}
+
+
+	public ArrayList<Room> getRoomList() {
+		return roomList;
+	}
+
+
+	public int getPeriod() {
+		return period;
+	}
+
+
+	public int getCapacityAud() {
+		return capacityAud;
+	}
+
+
+	public int getCapacityAmph() {
+		return capacityAmph;
+	}
+
+
+	public int getNumberOfAud() {
+		return numberOfAud;
+	}
+
+
+	public int getNumberOfAmph() {
+		return numberOfAmph;
+	}
+	
+	
 	
 	
 	
