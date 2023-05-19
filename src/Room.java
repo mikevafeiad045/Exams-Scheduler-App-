@@ -8,6 +8,15 @@ public class Room {
 		this.type = type;
 	}
 	
+//Getters
+	public String getRoomName() {
+		return roomName;
+	}
+
+	public int getType() {
+		return type;
+	}
+	
 	
 	
 }

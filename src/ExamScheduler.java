@@ -2,6 +2,7 @@
 public class ExamScheduler extends Secretary{
 	
 	private Course[][]availability;
+	static final int EXAM_ZONES = 6;
 
 	
 	 public ExamScheduler(int period, int capacityAud, int capacityAmph, int numberOfAud, int numberOfAmph,
@@ -76,6 +77,18 @@ public class ExamScheduler extends Secretary{
 		
 	}
 	
+	public void addToAvailabilityBoard(Course c) {
+		//Whenever a professor presses "Confirm" button and a course can be scheduled at that time
+			/*in gui_prof class: 
+			 * if(checkAvailability(int row, int col)){
+			 * 		addToAvailabilityBoard()
+			 * }else{
+			 * 		
+			 * }
+			 * 
+			 * 
+			 */
+	}
 	
 	
 	

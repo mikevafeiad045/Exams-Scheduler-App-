@@ -21,26 +21,23 @@ public class Secretary {
 		this.numberOfAmph = numberOfAmph;
 	}
 
-
+	
+//Getters
 	public ArrayList<Course> getCourseList() {
 		return courseList;
 	}
-
 
 	public ArrayList<Room> getRoomList() {
 		return roomList;
 	}
 
-
-	public int getPeriod() {
-		return period;
-	}
-
-
 	public int getCapacityAud() {
 		return capacityAud;
 	}
-
+	
+	public int getPeriod() {
+		return period;
+	}
 
 	public int getCapacityAmph() {
 		return capacityAmph;
@@ -57,7 +54,16 @@ public class Secretary {
 	}
 	
 	
+//Add objects to array lists methods
+	public void addCourse(Course C) {
+		courseList.add(C);
+	}
+	
+	public void addRoom(Room R) {
+		roomList.add(R);
+	}
 	
 	
+
 	
 }
