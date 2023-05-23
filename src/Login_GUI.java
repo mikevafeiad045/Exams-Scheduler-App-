@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
-public class Login_GUI extends JFrame{
+public class Login_GUI extends JFrame {
 	
 	private JPanel panel;
 	private JButton loginButton;
@@ -18,14 +18,15 @@ public class Login_GUI extends JFrame{
 	public Login_GUI() {
 		
 		panel= new JPanel();
-		loginButton= new JButton("Login");
-		passwordField= new JPasswordField(10);
+		
 		passwordLabel= new JLabel("Password");
-		
 		panel.add(passwordLabel);
-		panel.add(passwordField);
-		panel.add(loginButton);
 		
+		passwordField= new JPasswordField(10);
+		panel.add(passwordField);
+		
+		loginButton= new JButton("Login");
+		panel.add(loginButton);
 		ButtonListener listener= new ButtonListener();
 		loginButton.addActionListener(listener);
 		
@@ -52,7 +53,10 @@ public class Login_GUI extends JFrame{
 			String inputPass =  new String(passwordField.getPassword());
 			
 			if(inputPass.equals("$3cReT4rY")) {
-				//new RoomsGUI().setVisible(flag);
+				RoomsGUI roomsGUI= RoomsGUI.getInstance();
+				if(roomsGUI!=null) {
+					roomsGUI.setVisible(true);
+				}
 			}else if(inputPass.equals("pR0!3$$oR")) {
 				//new ProfGUI().getVisible(true);
 			}else {//Wrong Password
