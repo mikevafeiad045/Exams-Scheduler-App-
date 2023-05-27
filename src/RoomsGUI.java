@@ -13,7 +13,7 @@ public class RoomsGUI extends JFrame {
 		this.setContentPane(panel);
 		this.setVisible(true);
 		this.setSize(400,400);
-		this.setTitle("Log In Page");
+		this.setTitle("University Rooms");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
