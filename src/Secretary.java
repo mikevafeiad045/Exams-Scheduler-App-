@@ -63,7 +63,13 @@ public class Secretary {
 		roomList.add(R);
 	}
 	
+	public void setCapacityAmph(int input) {
+		this.capacityAmph = input;
+	}
 	
+	public void setCapacityAud(int input) {
+		this.capacityAud = input;
+	}
 
 	
 }

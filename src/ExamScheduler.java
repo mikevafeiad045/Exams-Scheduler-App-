@@ -16,9 +16,11 @@ public class ExamScheduler extends Secretary{
 	}
 	//Calculation of the working days between the first and the last day of the exams
      public int calculateWorkingDays() {
+    	 
             LocalDate startDate = LocalDate.of(2022, Month.DECEMBER, 23); //java.time.LocalDate
             LocalDate endDate = LocalDate.of(2023, Month.JANUARY, 3); //java.time.LocalDate
 
+            
             int numberOfDays = 0; 
 
             //Checking and adding the working days
@@ -96,6 +98,7 @@ public class ExamScheduler extends Secretary{
 		String[] parts = input.split("/");
 		String temp1 = parts[0];
 		String temp2 = parts[1];
+		
 		int day = Integer.parseInt(temp1);
 		int month = Integer.parseInt(temp2);
 		
@@ -103,17 +106,9 @@ public class ExamScheduler extends Secretary{
 		
 	}
 	
-	public void addToAvailabilityBoard(Course c) {
-		//Whenever a professor presses "Confirm" button and a course can be scheduled at that time
-			/*in gui_prof class: 
-			 * if(checkAvailability(int row, int col)){
-			 * 		addToAvailabilityBoard()
-			 * }else{
-			 * 		
-			 * }
-			 * 
-			 * 
-			 */
+	public void addToAvailabilityBoard(Course c,int row, int col) {
+		
+		availability[row][col] = c;
 	}
 	
 	
