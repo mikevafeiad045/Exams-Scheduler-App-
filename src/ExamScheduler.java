@@ -1,4 +1,8 @@
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.DayOfWeek;
+
 public class ExamScheduler extends Secretary{
 	
 	private Course[][]availability;
@@ -10,7 +14,29 @@ public class ExamScheduler extends Secretary{
 		super(period, capacityAud, capacityAmph, numberOfAud, numberOfAmph);
 		this.availability = availability;
 	}
+	//Calculation of the working days between the first and the last day of the exams
+     public int calculateWorkingDays() {
+            LocalDate startDate = LocalDate.of(2022, Month.DECEMBER, 23); //java.time.LocalDate
+            LocalDate endDate = LocalDate.of(2023, Month.JANUARY, 3); //java.time.LocalDate
 
+            int numberOfDays = 0; 
+
+            //Checking and adding the working days
+            LocalDate date = startDate;
+            while (!date.isAfter(endDate)) {
+                if (isWeekday(date)) {
+                    numberOfDays++;
+                }
+                date = date.plusDays(1);
+            }
+
+            return numberOfDays;
+    }
+
+    private boolean isWeekday(LocalDate date) {
+            DayOfWeek dayOfWeek = date.getDayOfWeek();
+            return dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
+    }
 
 
 	public void calcRemainingStudents(Course c) {
