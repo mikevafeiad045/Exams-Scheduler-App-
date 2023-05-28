@@ -1,6 +1,5 @@
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.DayOfWeek;
 
 public class ExamScheduler extends Secretary{
@@ -14,26 +13,56 @@ public class ExamScheduler extends Secretary{
 		super(period, capacityAud, capacityAmph, numberOfAud, numberOfAmph);
 		this.availability = availability;
 	}
+	 
+	 
 	//Calculation of the working days between the first and the last day of the exams
-     public int calculateWorkingDays() {
+     public int calculateWorkingDays(String start,String end) {
     	 
-            LocalDate startDate = LocalDate.of(2022, Month.DECEMBER, 23); //java.time.LocalDate
-            LocalDate endDate = LocalDate.of(2023, Month.JANUARY, 3); //java.time.LocalDate
+    	 
+    	String[] startParts = start.split("/");//Splitting the start date and getting month,year,day
+  		String start1 = startParts[0];
+  		String start2 = startParts[1];
+  		String start3 = startParts[2];
+  		
+  		int startDay = Integer.parseInt(start1);
+  		int startMonth = Integer.parseInt(start2);
+  		int startYear = Integer.parseInt(start3);
+  		
+  		String[] endParts = end.split("/");//Splitting the end date and getting month,year,day
+  		String end1 = endParts[0];
+  		String end2 = endParts[1];
+  		String end3 = endParts[2];
+  		
+  		int endDay = Integer.parseInt(end1);
+  		int endMonth = Integer.parseInt(end2);
+  		int endYear = Integer.parseInt(end3);
+
+    	 
+        LocalDate startDate = LocalDate.of(startYear, startMonth, startDay); //java.time.LocalDate
+        LocalDate endDate = LocalDate.of(endYear, endMonth, endDay); //java.time.LocalDate
 
             
-            int numberOfDays = 0; 
+        int numberOfDays = 0; 
 
-            //Checking and adding the working days
-            LocalDate date = startDate;
-            while (!date.isAfter(endDate)) {
-                if (isWeekday(date)) {
-                    numberOfDays++;
-                }
-                date = date.plusDays(1);
-            }
+        //Checking and adding the working days
+        LocalDate date = startDate;
+        while (!date.isAfter(endDate)) {
+            if (isWeekday(date)) {
+                numberOfDays++;
+             }
+             date = date.plusDays(1);
+        }
 
-            return numberOfDays;
+        return numberOfDays;
     }
+
+     void createAvailibilityBoard() {
+    	 int column = calculateWorkingDays(null, null);
+    	  
+    	 Course[][] availability = new Course[EXAM_ZONES][column];
+     
+     }
+     
 
     private boolean isWeekday(LocalDate date) {
             DayOfWeek dayOfWeek = date.getDayOfWeek();
