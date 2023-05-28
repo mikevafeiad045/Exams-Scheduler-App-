@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,10 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
-public class Login_GUI extends JFrame {
+public class Login_GUI extends JFrame implements ActionListener{
 	
 	private static JButton loginButton;
 	private static JPasswordField passwordField;
@@ -25,8 +25,9 @@ public class Login_GUI extends JFrame {
 		passwordLabel.setIcon(logo1);
 		passwordLabel.setHorizontalTextPosition(JLabel.CENTER);//Settings for the location of the 
 		passwordLabel.setVerticalTextPosition(JLabel.BOTTOM);//text compare to the icon
-		passwordLabel.setIconTextGap(25);
+		passwordLabel.setIconTextGap(20);
 		passwordLabel.setForeground(new Color(000000));
+		passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
 		this.add(passwordLabel);
 		
 		//Password Field Settings
@@ -35,10 +36,7 @@ public class Login_GUI extends JFrame {
 		
 		 //Login Button Settings
 		loginButton= new JButton("Login");
-		loginButton.setBounds(100, 100, 100, 50);
-		ButtonListener listener= new ButtonListener();//Creating the button listener
-		loginButton.addActionListener(listener);//Connecting the button listener with the button
-		loginButton.setBounds(100, 100, 200, 100);
+		loginButton.addActionListener(this);//Connecting the button with the action
 		this.add(loginButton);
 		
 		
@@ -56,8 +54,32 @@ public class Login_GUI extends JFrame {
 		
 		
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource()==loginButton) {
+			String inputPass = String.valueOf(passwordField.getPassword());
+			
+			if(inputPass.equals("$3cReT4rY")) {
+				this.dispose();
+				RoomsGUI roomsGUI= RoomsGUI.getInstance();
+				if(roomsGUI!=null) {
+					roomsGUI.setVisible(true);
+				}
+			}else if(inputPass.equals("pR0!3$$oR")) {
+				this.dispose();
+				//new ProfGUI().getVisible(true);
+			}else {//Wrong Password
+				JOptionPane.showMessageDialog(null,"Wrong Password! Please try again.","ERROR",JOptionPane.ERROR_MESSAGE);
+				passwordField.setText("");
+			}
+			
+		}
+		
+	}
 	
-	class ButtonListener implements ActionListener{
+	/*class ButtonListener implements ActionListener{
 		
 		//private boolean flag=true;
 
@@ -82,7 +104,7 @@ public class Login_GUI extends JFrame {
 			
 		}
 		
-	}
+	}*/
 	
 
 }
