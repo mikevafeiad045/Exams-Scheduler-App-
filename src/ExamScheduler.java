@@ -41,10 +41,11 @@ public class ExamScheduler extends Secretary{
     }
 
 
-	public void calcRemainingStudents(Course c) {
+	public int calcRemainingStudents(int students, int capacity) {
 		
-		
-		
+		int remainingStudents = students-capacity;
+		if(remainingStudents <=0) return 0;
+		return remainingStudents;
 		 
 	}
 	
