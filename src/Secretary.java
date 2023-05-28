@@ -8,6 +8,8 @@ public class Secretary {
 	protected int capacityAmph;
 	protected int numberOfAud;
 	protected int numberOfAmph;
+	protected String startDate;
+	protected String endDate;
 	
 	
 	public Secretary(int period, int capacityAud,int capacityAmph, int numberOfAud, int numberOfAmph) {
@@ -70,6 +72,14 @@ public class Secretary {
 	public void setCapacityAud(int input) {
 		this.capacityAud = input;
 	}
+	
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
 
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	
 	
 }

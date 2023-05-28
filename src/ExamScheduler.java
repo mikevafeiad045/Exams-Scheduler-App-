@@ -18,6 +18,8 @@ public class ExamScheduler extends Secretary{
 	//Calculation of the working days between the first and the last day of the exams
      public int calculateWorkingDays(String start,String end) {
     	 
+    	this.setStartDate(start);
+    	this.setEndDate(end);
     	 
     	String[] startParts = start.split("/");//Splitting the start date and getting month,year,day
   		String start1 = startParts[0];
@@ -125,15 +127,10 @@ public class ExamScheduler extends Secretary{
 		//Function that converts selected date from GUI_Prof to a column of the availability array
 		//Input format: e.g. "13/01/23"
 		
-		String[] parts = input.split("/");
-		String temp1 = parts[0];
-		String temp2 = parts[1];
+		int col = (this.calculateWorkingDays(this.startDate, input) - 1);//Working days from exam period start date to input date
+																		 // (minus 1 because first column == 0))
 		
-		int day = Integer.parseInt(temp1);
-		int month = Integer.parseInt(temp2);
-		
-		
-		
+		return col;
 	}
 	
 	public void addToAvailabilityBoard(Course c,int row, int col) {
