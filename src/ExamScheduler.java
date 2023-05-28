@@ -56,10 +56,10 @@ public class ExamScheduler extends Secretary{
         return numberOfDays;
     }
 
-     void createAvailibilityBoard() {
-    	 int column = calculateWorkingDays(null, null);
+     void createAvailibilityBoard(String start, String end) {
+    	 int column = calculateWorkingDays(start, end);
     	  
-    	 Course[][] availability = new Course[EXAM_ZONES][column];
+    	 this.availability = new Course[EXAM_ZONES][column];
      
      }
      
