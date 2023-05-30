@@ -79,32 +79,4 @@ public class Login_GUI extends JFrame implements ActionListener{
 		
 	}
 	
-	/*class ButtonListener implements ActionListener{
-		
-		//private boolean flag=true;
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-			String inputPass = String.valueOf(passwordField.getPassword());
-			
-			if(inputPass.equals("$3cReT4rY")) {
-				RoomsGUI roomsGUI= RoomsGUI.getInstance();
-				if(roomsGUI!=null) {
-					roomsGUI.setVisible(true);
-				}
-			}else if(inputPass.equals("pR0!3$$oR")) {
-				//new ProfGUI().getVisible(true);
-			}else {//Wrong Password
-				JOptionPane.showMessageDialog(null,"Wrong Password! Please try again.","ERROR",JOptionPane.ERROR_MESSAGE);
-				passwordField.setText("");
-			}
-			
-			
-		}
-		
-	}*/
-	
-
 }

@@ -6,11 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import com.toedter.calendar.JDateChooser;
 
 public class RoomsGUI extends JFrame implements ActionListener {
 	
@@ -38,9 +43,16 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	private static JTextField ampnumText;
 	private static JTextField ampcapText;
 	
-	/*Μέχρι στιγμής υπάρχουν 3 panels. Τα 2 είναι μίκρα τα οποία περιέχονται μέσα στο μεγάλο.
-	 Το πρώτο μικρό πάνελ αφορά τα στοιχεία για τις αίθουσες και το δεύτερο μικρό αφορά στοιχεία για τα αμφιθέατρα.
-	 */
+	//Components for Exams Period
+	private JPanel periodPanel;
+	private JLabel startLabel;
+	private JDateChooser startdateChooser;
+	private JLabel finalLabel;
+	private JDateChooser finaldateChooser;
+	private JButton button;
+	private JComboBox periodBox;
+	
+	
 	
 	private RoomsGUI() {
 		
@@ -84,7 +96,7 @@ public class RoomsGUI extends JFrame implements ActionListener {
 		audPanel.add(audcapLabel);
 		audPanel.add(audcapText);
 		
-		//Adding the Auditoriums Panel to the Rooms Panel
+		//Adding the Auditoriums Panel to Rooms Panel
 		roomsPanel.add(audPanel);
 		
 		//Creating and Styling components for Amphitheaters Panel
@@ -118,16 +130,49 @@ public class RoomsGUI extends JFrame implements ActionListener {
 		ampPanel.add(ampcapLabel);
 		ampPanel.add(ampcapText);
 		
-		//Adding the Amphitheaters Panel to the Rooms Panel
+		//Adding the Amphitheaters Panel to Rooms Panel
 		roomsPanel.add(ampPanel);
+		
+		//Creating and Styling the components for Period Panel
 		
 		periodLabel= new JLabel("Exams Period");
 		periodLabel.setForeground(new Color(000000));
 		periodLabel.setFont(new Font("Arial", Font.BOLD, 25));
 		roomsPanel.add(periodLabel);
 		
+		periodPanel = new JPanel();
+		roomsPanel.add(periodPanel);
+		periodPanel.setPreferredSize(new Dimension(250,90));
+		periodPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		this.add(roomsPanel);
+		startLabel = new JLabel("Starting Date");
+		startLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		periodPanel.add(startLabel);
+		
+		startdateChooser = new JDateChooser();
+		startdateChooser.setPreferredSize(new Dimension(90,20));
+		periodPanel.add(startdateChooser);
+		
+		finalLabel = new JLabel("Final Date");
+		finalLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		periodPanel.add(finalLabel);
+		
+		finaldateChooser = new JDateChooser();
+		finaldateChooser.setPreferredSize(new Dimension(90,20));
+		periodPanel.add(finaldateChooser);
+		
+		periodBox = new JComboBox();
+		periodBox.setModel(new DefaultComboBoxModel(new String[] {"Χειμερινή", "Εαρινή", "Επαναληπτική"}));
+		periodPanel.add(periodBox);
+		
+		button = new JButton("Confirm");
+		button.setFont(new Font("Arial", Font.PLAIN, 20));
+		button.addActionListener(this);
+		roomsPanel.add(button);
+		
+		
+		
+		getContentPane().add(roomsPanel);
 		this.setVisible(true);
 		this.setSize(800,800);
 		this.setTitle("University Rooms");
