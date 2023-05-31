@@ -49,7 +49,7 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	private JDateChooser startdateChooser;
 	private JLabel finalLabel;
 	private JDateChooser finaldateChooser;
-	private JButton button;
+	private static JButton button;
 	private JComboBox periodBox;
 	
 	
@@ -198,6 +198,11 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
+		if(e.getSource()==button) {
+			this.dispose();
+			new InsertCourseGUI();
+		}
 		
 	}
 	

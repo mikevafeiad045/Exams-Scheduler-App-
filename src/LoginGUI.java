@@ -11,13 +11,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
-public class Login_GUI extends JFrame implements ActionListener{
+public class LoginGUI extends JFrame implements ActionListener{
 	
 	private static JButton loginButton;
 	private static JPasswordField passwordField;
 	private static JLabel passwordLabel;
 	
-	public Login_GUI() {
+	public LoginGUI() {
 		
 		// Label Settings and Styling
 		ImageIcon logo1= new ImageIcon("logo1.png");//Creating Icon
@@ -66,6 +66,9 @@ public class Login_GUI extends JFrame implements ActionListener{
 				RoomsGUI roomsGUI= RoomsGUI.getInstance();
 				if(roomsGUI!=null) {
 					roomsGUI.setVisible(true);
+				}
+				else {
+					new InsertCourseGUI();
 				}
 			}else if(inputPass.equals("pR0!3$$oR")) {
 				this.dispose();
