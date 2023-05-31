@@ -1,22 +1,24 @@
+import java.util.ArrayList;
 
-import java.time.LocalDate;
-import java.time.DayOfWeek;
+//import java.time.LocalDate;
+//import java.time.DayOfWeek;
 
 public class ExamScheduler extends Secretary{
 	
-	private Course[][]availability;
+	//private Course[][]availability;
 	static final int EXAM_ZONES = 6;
+	ArrayList<Date> dates = new ArrayList<>();
 
 	
 	 public ExamScheduler(int period, int capacityAud, int capacityAmph, int numberOfAud, int numberOfAmph,
 			Course[][] availability) {
 		super(period, capacityAud, capacityAmph, numberOfAud, numberOfAmph);
-		this.availability = availability;
+		//this.availability = availability;
 	}
 	 
 	 
 	//Calculation of the working days between the first and the last day of the exams
-     public int calculateWorkingDays(String start,String end) {
+    /* public int calculateWorkingDays(String start,String end) {
     	 
     	this.setStartDate(start);
     	this.setEndDate(end);
@@ -69,7 +71,7 @@ public class ExamScheduler extends Secretary{
     private boolean isWeekday(LocalDate date) {
             DayOfWeek dayOfWeek = date.getDayOfWeek();
             return dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
-    }
+    }*/
 
 
 	public int calcRemainingStudents(int students, int capacity) {
@@ -80,7 +82,7 @@ public class ExamScheduler extends Secretary{
 		 
 	}
 	
-	public boolean checkAvailability(int row, int col) {
+	/*public boolean checkAvailability(int row, int col) {
 		
 		if(availability[row][col] instanceof Course) {
 			return false;
@@ -136,7 +138,7 @@ public class ExamScheduler extends Secretary{
 	public void addToAvailabilityBoard(Course c,int row, int col) {
 		
 		availability[row][col] = c;
-	}
+	}*/
 	
 	
 	
