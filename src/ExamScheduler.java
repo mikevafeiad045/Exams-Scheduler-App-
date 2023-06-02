@@ -1,6 +1,9 @@
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.time.DayOfWeek;
+
+import java.text.SimpleDateFormat;
 
 public class ExamScheduler extends Secretary{
 	
@@ -138,6 +141,35 @@ public class ExamScheduler extends Secretary{
 		availability[row][col] = c;
 	}
 	
-	
+	public int [] ConvertAndSplitDate(String inputDate) {
+		//Converts input date from date chooser to simple date format
+		//Returns array of size 3, containing the day, month and year int values
+		
+		SimpleDateFormat inputFormat = new SimpleDateFormat ("EEE MMMM dd HH:mm:ss zzzz yyyy");
+		SimpleDateFormat outputFormat = new SimpleDateFormat ("dd-MM-yy");
+		
+		int parts[] = new int[3];
+		
+		 try {
+	            Date date = inputFormat.parse(inputDate);
+	            String outputDate = outputFormat.format(date);
+	            
+	            String[] temp = outputDate.split("-");
+	            //Convert parts (string) to int
+	            parts[0] = Integer.parseInt(temp[0]);
+	            parts[1] = Integer.parseInt(temp[1]);
+	            parts[2] = Integer.parseInt(temp[2]);
+	            
+	            
+	     } catch (Exception e) {
+	            e.printStackTrace();
+	            //parts[0] = -1;
+	            System.exit(1);
+	     }
+		 
+		 return parts;
+		 
+	}
+
 	
 }

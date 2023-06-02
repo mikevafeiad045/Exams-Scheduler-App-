@@ -103,8 +103,6 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
 		if(e.getSource()==confirmButton) {
 			this.dispose();
 			new LoginGUI();
@@ -112,4 +110,11 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		
 	}
 
+	public void addProfsToCourse(Course c, String profsInput) {
+		String[] names = profsInput.split(",");
+		for(String s : names) {
+			s.trim();
+			c.addProf(s);
+		}
+	}
 }
