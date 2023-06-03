@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -200,12 +201,51 @@ public class RoomsGUI extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		
 		if(e.getSource()==button) {
-			this.dispose();
-			new InsertCourseGUI();
+			
+			if(checkTextFieldsAndDates()) {
+				
+				int period = periodBox.getSelectedIndex();
+				int audnum = Integer.parseInt(audnumText.getText());
+				int audcap = Integer.parseInt(audcapText.getText());
+				int ampnum = Integer.parseInt(ampnumText.getText());
+				int ampcap = Integer.parseInt(ampcapText.getText());
+				
+				//!!!
+				//Πρωτον δεν μπορω να κανω ExamScheduler γιατι στον κατασκευαστη εχετε τον πινακα
+				//Δευτερον στην Secretary  δεν εχετε βαλει στον κατασκευαστη για να περναω τις ημερομηνιες
+				//Χρειαζεται να διορθωθουν αυτα για να μπορω να χρησιμοποιησω την ConvertAndSplitDate της ExamScheduler
+				Secretary scheduler= new Secretary(period,audcap,ampcap,audnum,ampnum);
+				new InsertCourseGUI(scheduler);
+				this.dispose();
+			}else {
+				JOptionPane.showMessageDialog(null,"All the field are Required!");
+			}
+			
 		}
 		
 	}
 	
-	
+	public boolean checkTextFieldsAndDates() {
+		
+		if(audnumText.getText().equals("")) {
+			return (false);
+		}else if(audcapText.getText().equals("")) {
+			return (false);
+		}else if(ampnumText.getText().equals("")) {
+			return (false);
+		}else if(ampcapText.getText().equals("")) {
+			return (false);
+		}/*else if(startdateChooser.getDateFormatString().equals("")) {
+			return (false);
+		}else if(finaldateChooser.getDateFormatString().equals("")) {
+			return (false);
+		}//Δεν δουλευουν οι συνθηκες!!!
+		*/
+		
+		else {
+			System.out.println(startdateChooser.getDateFormatString());
+			return(true);
+		}
+	}
 
 }

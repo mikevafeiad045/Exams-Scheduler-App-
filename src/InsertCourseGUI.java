@@ -21,7 +21,7 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	private JButton insertButton;
 	private JButton confirmButton;
 	
-	public InsertCourseGUI() {
+	public InsertCourseGUI(Secretary scheduler) {
 		
 		this.setAlwaysOnTop(true);
 		this.setVisible(true);

@@ -68,7 +68,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 					roomsGUI.setVisible(true);
 				}
 				else {
-					new InsertCourseGUI();
+					new InsertCourseGUI(null);
 				}
 			}else if(inputPass.equals("pR0!3$$oR")) {
 				this.dispose();
