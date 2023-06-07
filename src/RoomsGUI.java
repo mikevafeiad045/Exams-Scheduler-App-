@@ -51,11 +51,11 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	private JLabel finalLabel;
 	private JDateChooser finaldateChooser;
 	private static JButton button;
-	private JComboBox periodBox;
+	private JComboBox<String> periodBox;
 	
 	
 	
-	private RoomsGUI() {
+	public RoomsGUI() {
 		
 		roomsPanel= new JPanel();// Creating the panel that contains the components 
 		roomsPanel.setLayout(new FlowLayout(FlowLayout.CENTER,1000,15));
@@ -198,7 +198,6 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 		if(e.getSource()==button) {
 			

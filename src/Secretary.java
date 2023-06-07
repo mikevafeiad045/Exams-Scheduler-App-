@@ -12,7 +12,7 @@ public class Secretary {
 	protected String endDate;
 	
 	
-	public Secretary(int period, int capacityAud,int capacityAmph, int numberOfAud, int numberOfAmph) {
+	public Secretary(int period, int capacityAud,int capacityAmph, int numberOfAud, int numberOfAmph/*, String startDate, String endDate*/) {
 	
 		this.courseList = new ArrayList<Course>();
 		this.roomList = new ArrayList<Room>();
@@ -21,6 +21,8 @@ public class Secretary {
 		this.capacityAmph = capacityAmph;
 		this.numberOfAud = numberOfAud;
 		this.numberOfAmph = numberOfAmph;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
 	

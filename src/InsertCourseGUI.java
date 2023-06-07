@@ -22,10 +22,10 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	private JButton confirmButton;
 	
 	public InsertCourseGUI(Secretary scheduler) {
-		
+		//"C:\\Users\\ELENI\\Documents\\Exams-Scheduler-App-\\
 		this.setAlwaysOnTop(true);
 		this.setVisible(true);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ELENI\\Documents\\Exams-Scheduler-App-\\logo.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
 		this.setTitle("Secretary");
 		this.setSize(600,600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -24,14 +24,15 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 	private JComboBox<String> hoursBox;
 	private JList<String> suggestedRoomsList;
 	private JButton confirmButton;
+	private JLabel remainingStudents;
+	private JDateChooser dateChooser;
 	
 	
-	
-	public ScheduleExamGUI() {
+	public ScheduleExamGUI(Secretary S/*, ExamScheduler ES*/, Course selectedCourse) {
 		
-
+//"C:\\Users\\ELENI\\Documents\\Exams-Scheduler-App-\\logo.png"
 		this.setAlwaysOnTop(true);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ELENI\\Documents\\Exams-Scheduler-App-\\logo.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
 		this.setTitle("Schedule The Exam");
 		this.setSize(500,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,6 +66,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 		sl_panel.putConstraint(SpringLayout.SOUTH, dateChooser, -321, SpringLayout.SOUTH, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, dateChooser, -110, SpringLayout.EAST, panel);
 		panel.add(dateChooser);
+		//dateChooser.addActionListener
 		
 		JButton searchButton = new JButton("Search");
 		sl_panel.putConstraint(SpringLayout.NORTH, searchButton, 25, SpringLayout.SOUTH, dateChooser);
@@ -79,7 +81,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 		hoursBox.setFont(new Font("Arial", Font.PLAIN, 15));
 		panel.add(hoursBox);
 		
-		JList suggestedRoomsList = new JList();
+		JList<String> suggestedRoomsList = new JList<String>();
 		sl_panel.putConstraint(SpringLayout.NORTH, suggestedRoomsList, 50, SpringLayout.SOUTH, hoursBox);
 		sl_panel.putConstraint(SpringLayout.WEST, suggestedRoomsList, 78, SpringLayout.WEST, panel);
 		sl_panel.putConstraint(SpringLayout.SOUTH, suggestedRoomsList, -10, SpringLayout.SOUTH, panel);
@@ -96,6 +98,12 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 		suggestedRoomsList.setFont(new Font("Arial", Font.PLAIN, 13));
 		suggestedRoomsList.setBackground(new Color(192, 192, 192));
 		panel.add(suggestedRoomsList);
+		
+		//-----------------------------------------------------------/!\
+		JLabel remainingStudents = new JLabel("Remaining students: ");
+		remainingStudents.setFont(new Font("Arial", Font.PLAIN, 13));
+		panel.add(remainingStudents);
+		//---------------------------------------------------------------------------
 		
 		JLabel hoursLabel = new JLabel("Available Hours:");
 		sl_panel.putConstraint(SpringLayout.NORTH, hoursLabel, 84, SpringLayout.SOUTH, selectLabel);
@@ -116,11 +124,23 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 184, SpringLayout.WEST, this.getContentPane());
 		this.getContentPane().add(btnNewButton);
 		
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getSource() == searchButton) {
+			//get date. Then search for this date in the  
+			//System.out.println(dateChooser.getDate());			
+			
+			
+		}else {
+			
+			
+			
+		}
 		
 	}
 

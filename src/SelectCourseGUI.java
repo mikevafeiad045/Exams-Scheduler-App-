@@ -16,10 +16,13 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 	private JButton btnConfirm;
 	private JComboBox<String> courseBox;
 	private ArrayList<Course> courses;
+	private Secretary S;
+	private ExamScheduler ES;
 	
 	
-	public SelectCourseGUI(Secretary S) {
-		
+	public SelectCourseGUI(Secretary S, ExamScheduler ES) {
+		this.S=S;
+		this.ES=ES;
 		courses.addAll(S.getCourseList());
 	
 		
@@ -64,14 +67,20 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 		String selectedCourseName = (String) courseBox.getSelectedItem();
 		//HashcourseMap = createCourseMap();
 		HashMap<String, Course> map = this.createCourseMap();
+		Course selectedCourse=null;
 		try {
-			Course selectedCourse = map.get(selectedCourseName);
+			selectedCourse = map.get(selectedCourseName);
+			
 		}catch(Exception e1) {
 			e1.printStackTrace();
 			//System.exit(1);	
 		}
 		
+		
+		if(selectedCourse == null) System.exit(1);
 		//Use the course object in next GUI...
+		new ScheduleExamGUI(S/*,ES*/,selectedCourse);
+		this.dispose();
 		
 		
 	}
