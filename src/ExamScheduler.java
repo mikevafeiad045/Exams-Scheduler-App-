@@ -8,8 +8,7 @@ public class ExamScheduler extends Secretary{
 	ArrayList<ExamDate> dates = new ArrayList<>();
 
 	
-	 public ExamScheduler(int period, int capacityAud, int capacityAmph, int numberOfAud, int numberOfAmph,
-			Course[][] availability) {
+	 public ExamScheduler(int period, int capacityAud, int capacityAmph, int numberOfAud, int numberOfAmph) {
 		super(period, capacityAud, capacityAmph, numberOfAud, numberOfAmph);
 	}
 	 
@@ -34,18 +33,18 @@ public class ExamScheduler extends Secretary{
 		 
 	}
 	
-	public int [] ConvertAndSplitDate(String inputDate) {
+	
+	public int [] SplitDate(String outputDate) {
 		//Converts input date from date chooser to simple date format
 		//Returns array of size 3, containing the day, month and year int values
 		
-		SimpleDateFormat inputFormat = new SimpleDateFormat ("EEE MMMM dd HH:mm:ss zzzz yyyy");
-		SimpleDateFormat outputFormat = new SimpleDateFormat ("dd-MM-yy");
+		//SimpleDateFormat inputFormat = new SimpleDateFormat ("EEE MMMM dd HH:mm:ss zzzz yyyy");
+		//SimpleDateFormat inputFormat = new SimpleDateFormat ("MMM dd, yyyy");
+		//SimpleDateFormat outputFormat = new SimpleDateFormat ("dd-MM-yy");
 		
 		int parts[] = new int[3];
 		
 		 try {
-	            Date date = inputFormat.parse(inputDate);
-	            String outputDate = outputFormat.format(date);
 	            
 	            String[] temp = outputDate.split("-");
 	            //Convert parts (string) to int
@@ -62,6 +61,27 @@ public class ExamScheduler extends Secretary{
 		 
 		 return parts;
 		 
+	}
+	
+	public String ConvertDate(String inputDate) {
+		//Converts input date from date chooser to simple date format
+		//Returns array of size 3, containing the day, month and year int values
+		
+		//SimpleDateFormat inputFormat = new SimpleDateFormat ("EEE MMMM dd HH:mm:ss zzzz yyyy");
+		SimpleDateFormat inputFormat = new SimpleDateFormat ("MMM dd, yyyy");
+		SimpleDateFormat outputFormat = new SimpleDateFormat ("dd-MM-yy");
+		
+		Date date=null;
+		try {
+			 date = inputFormat.parse(inputDate);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	    
+	    String outputDate = outputFormat.format(date);
+	    
+	    return outputDate; 
+    
 	}
 
 }
