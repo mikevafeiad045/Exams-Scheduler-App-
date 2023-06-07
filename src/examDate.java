@@ -1,11 +1,11 @@
 
-public class examDate {
-String day;
-	
+public class ExamDate {
+	String day;
+
     private Course[] zones = new Course[6];
 
-    public examDate(String d) {
-    	day=d;
+    public ExamDate(String d) {
+        day=d;
     }
 
     public void addCourse(Course c,int index) { //Adding course to table zones;
@@ -49,8 +49,10 @@ String day;
         }else addCourse(c,num);
 
     }
-    
+
     public Course[] getZone() {
-    	return zones;
+        return zones;
     }
+
+
 }
