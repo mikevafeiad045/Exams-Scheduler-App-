@@ -1,15 +1,12 @@
 
 public class Date {
 	
-	int day;
-    int month;
-    int year;
+	String day;
+	
     private Course[] zones = new Course[6];
 
-    public Date(int d,int m, int y) {
-        day=d;
-        month=m;
-        year=y;
+    public Date(String d) {
+    	day=d;
     }
 
     public void addCourse(Course c,int index) { //Adding course to table zones;
@@ -52,6 +49,10 @@ public class Date {
             //GUI OCCUPIED!
         }else addCourse(c,num);
 
+    }
+    
+    public Course[] getZone() {
+    	return zones;
     }
 
 }
