@@ -5,7 +5,7 @@ import java.util.Date;
 public class ExamScheduler extends Secretary{
 	
 	static final int EXAM_ZONES = 6;
-	ArrayList<Date> dates = new ArrayList<>();
+	ArrayList<examDate> dates = new ArrayList<>();
 
 	
 	 public ExamScheduler(int period, int capacityAud, int capacityAmph, int numberOfAud, int numberOfAmph,
@@ -15,13 +15,13 @@ public class ExamScheduler extends Secretary{
 	 
 	 
 	 public Course[] findDate(String day) { //Searching the date and if it isn't in the list dates adding it.
-	    	for(Date d: dates) {
+	    	for(examDate d: dates) {
 	    		if (d.day.equals(day)) {//Date found
 	    			return d.getZone();
 	    		}
 	    	}
 	    	//Not found, Adding it to dates
-	    	Date selectedDate = new Date(day);
+	    	examDate selectedDate = new examDate(day);
 	    	dates.add(selectedDate);
 	    	return selectedDate.getZone();
 	    }
