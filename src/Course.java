@@ -3,14 +3,14 @@ import java.util.ArrayList;
 public class Course {
 	private ArrayList<String> professorsList;
 	private ArrayList<Room> selectedRoomsList;
-	private String className;
+	private String courseName;
 	private int numberOfStudents;
 	
 	public Course(String className,int numberOfStudents) {
 
 		this.professorsList = new ArrayList<String>();
 		this.selectedRoomsList = new ArrayList<Room>();
-		this.className = className;
+		this.courseName = className;
 		this.numberOfStudents = numberOfStudents;
 	}
 	
@@ -24,8 +24,8 @@ public class Course {
 		return selectedRoomsList;
 	}
 
-	public String getClassName() {
-		return className;
+	public String getCourseName() {
+		return courseName;
 	}
 
 	public int getNumberOfStudents() {
