@@ -25,8 +25,11 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 	JComboBox<String> courseBoxList;
 	JLabel optionsLabel;
 	JLabel resetLabel;
+	ExamScheduler es;
 
-	public SecretaryGUI2() {
+	public SecretaryGUI2(ExamScheduler ES) {
+		
+		es=ES;
 		
 		courseBoxList = new JComboBox<String>();
 		courseBoxList.addItem("-Courses-");
@@ -87,9 +90,9 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		public void actionPerformed(ActionEvent e) {
 		
 			if(e.getSource()==viewProgButton) {
-				new CalendarGUI();
+				new CalendarGUI(es);
 			}else if(e.getSource()==logoutButton) {
-				new LoginGUI();
+				new LoginGUI(es);
 			}
 			this.dispose(); 
 		}

@@ -17,8 +17,11 @@ public class LoginGUI extends JFrame implements ActionListener{
 	private static JPasswordField passwordField;
 	private static JLabel passwordLabel;
 	private static boolean firstLogin = true;
+	ExamScheduler es;
 	
-	public LoginGUI() {
+	public LoginGUI(ExamScheduler ES) {
+		
+		es=ES;
 		
 		// Label Settings and Styling
 		ImageIcon logo1= new ImageIcon("logo1.png");//Creating Icon
@@ -74,7 +77,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 					}
 					
 				}else {
-					new SecretaryGUI2();
+					new SecretaryGUI2(es);
 					
 				}
 			

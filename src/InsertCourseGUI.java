@@ -116,7 +116,7 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 			
 		}else {
 			this.dispose();
-			new LoginGUI();
+			new LoginGUI(ES);
 		}
 		
 	}
