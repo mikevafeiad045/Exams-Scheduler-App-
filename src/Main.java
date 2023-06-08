@@ -7,6 +7,7 @@ public class Main {
 		
 		ExamScheduler ES = new ExamScheduler(10,10,10,10,10,"05-05-23","17-05-23");
 		
+		
 		Course c = new Course("Algorithms",100);
 		
 		//new ScheduleExamGUI(ES,selectedCourse);

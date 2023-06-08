@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Room {
+public class Room implements Serializable{
 	private String roomName;
 	private int type;
 	

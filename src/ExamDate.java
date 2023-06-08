@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class ExamDate {
+public class ExamDate implements Serializable{
 	String day;
 
     private Course[] zones = new Course[6];
