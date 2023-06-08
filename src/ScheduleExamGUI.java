@@ -3,6 +3,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
@@ -15,6 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
 import com.toedter.calendar.JDateChooser;
+import javax.swing.UIManager;
+import javax.swing.JTextField;
+
+
 
 public class ScheduleExamGUI extends JFrame implements ActionListener {
 	
@@ -26,9 +31,12 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 	private JButton confirmButton;
 	private JLabel remainingStudents;
 	private JDateChooser dateChooser;
+	private ExamScheduler ES;
+	private String def[] =new String[] {"9:00-11:00", "11:00-13:00", "13:00-15:00", "15:00-17:00", "17:00-19:00", "19:00-21:00"};
+	private JTextField textField;
+	private JTextField textField_1;
 	
-	
-	public ScheduleExamGUI(Secretary S/*, ExamScheduler ES*/, Course selectedCourse) {
+	public ScheduleExamGUI(ExamScheduler ES, Course selectedCourse) {
 		
 //"C:\\Users\\ELENI\\Documents\\Exams-Scheduler-App-\\logo.png"
 		this.setAlwaysOnTop(true);
@@ -55,37 +63,37 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 		panel.add(courseLabel);
 		
 		JLabel selectLabel = new JLabel("Select Date:");
-		selectLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+		selectLabel.setFont(new Font("Arial", Font.PLAIN, 17));
 		panel.add(selectLabel);
 		
 		JDateChooser dateChooser = new JDateChooser();
+		sl_panel.putConstraint(SpringLayout.EAST, selectLabel, -21, SpringLayout.WEST, dateChooser);
+		sl_panel.putConstraint(SpringLayout.NORTH, dateChooser, 39, SpringLayout.SOUTH, courseLabel);
+		sl_panel.putConstraint(SpringLayout.SOUTH, dateChooser, -303, SpringLayout.SOUTH, panel);
 		sl_panel.putConstraint(SpringLayout.NORTH, selectLabel, 0, SpringLayout.NORTH, dateChooser);
-		sl_panel.putConstraint(SpringLayout.EAST, selectLabel, -18, SpringLayout.WEST, dateChooser);
-		sl_panel.putConstraint(SpringLayout.NORTH, dateChooser, 26, SpringLayout.SOUTH, courseLabel);
-		sl_panel.putConstraint(SpringLayout.WEST, dateChooser, 197, SpringLayout.WEST, panel);
-		sl_panel.putConstraint(SpringLayout.SOUTH, dateChooser, -321, SpringLayout.SOUTH, panel);
-		sl_panel.putConstraint(SpringLayout.EAST, dateChooser, -110, SpringLayout.EAST, panel);
+		sl_panel.putConstraint(SpringLayout.WEST, dateChooser, 137, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.EAST, dateChooser, -220, SpringLayout.EAST, panel);
 		panel.add(dateChooser);
 		//dateChooser.addActionListener
 		
 		JButton searchButton = new JButton("Search");
-		sl_panel.putConstraint(SpringLayout.NORTH, searchButton, 25, SpringLayout.SOUTH, dateChooser);
-		sl_panel.putConstraint(SpringLayout.WEST, searchButton, 197, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, searchButton, 28, SpringLayout.SOUTH, courseLabel);
+		sl_panel.putConstraint(SpringLayout.WEST, searchButton, 34, SpringLayout.EAST, dateChooser);
+		sl_panel.putConstraint(SpringLayout.EAST, searchButton, -85, SpringLayout.EAST, panel);
 		searchButton.setFont(new Font("Arial", Font.PLAIN, 15));
 		panel.add(searchButton);
 		
 		JComboBox hoursBox = new JComboBox();
-		sl_panel.putConstraint(SpringLayout.WEST, hoursBox, 244, SpringLayout.WEST, panel);
-		sl_panel.putConstraint(SpringLayout.EAST, hoursBox, 0, SpringLayout.EAST, courseLabel);
-		hoursBox.setModel(new DefaultComboBoxModel(new String[] {"9:00-11:00", "11:00-13:00", "13:00-15:00", "15:00-17:00", "17:00-19:00", "19:00-21:00"}));
+		sl_panel.putConstraint(SpringLayout.NORTH, hoursBox, 131, SpringLayout.NORTH, panel);
+		sl_panel.putConstraint(SpringLayout.EAST, hoursBox, -85, SpringLayout.EAST, panel);
+		sl_panel.putConstraint(SpringLayout.SOUTH, searchButton, -25, SpringLayout.NORTH, hoursBox);
+		hoursBox.setModel(new DefaultComboBoxModel(def));
 		hoursBox.setFont(new Font("Arial", Font.PLAIN, 15));
 		panel.add(hoursBox);
 		
 		JList<String> suggestedRoomsList = new JList<String>();
-		sl_panel.putConstraint(SpringLayout.NORTH, suggestedRoomsList, 50, SpringLayout.SOUTH, hoursBox);
-		sl_panel.putConstraint(SpringLayout.WEST, suggestedRoomsList, 78, SpringLayout.WEST, panel);
-		sl_panel.putConstraint(SpringLayout.SOUTH, suggestedRoomsList, -10, SpringLayout.SOUTH, panel);
-		sl_panel.putConstraint(SpringLayout.EAST, suggestedRoomsList, 0, SpringLayout.EAST, dateChooser);
+		sl_panel.putConstraint(SpringLayout.SOUTH, suggestedRoomsList, -61, SpringLayout.SOUTH, panel);
+		sl_panel.putConstraint(SpringLayout.EAST, suggestedRoomsList, -97, SpringLayout.EAST, panel);
 		suggestedRoomsList.setModel(new AbstractListModel() {
 			String[] values = new String[] {"1", "2", "3", "4", "5"};
 			public int getSize() {
@@ -96,20 +104,25 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 			}
 		});
 		suggestedRoomsList.setFont(new Font("Arial", Font.PLAIN, 13));
-		suggestedRoomsList.setBackground(new Color(192, 192, 192));
+		suggestedRoomsList.setBackground(UIManager.getColor("InternalFrame.resizeIconHighlight"));
 		panel.add(suggestedRoomsList);
 		
 		//-----------------------------------------------------------/!\
 		JLabel remainingStudents = new JLabel("Remaining students: ");
+		sl_panel.putConstraint(SpringLayout.NORTH, remainingStudents, 14, SpringLayout.SOUTH, suggestedRoomsList);
+		sl_panel.putConstraint(SpringLayout.WEST, remainingStudents, 86, SpringLayout.WEST, panel);
+		remainingStudents.setForeground(Color.BLACK);
 		remainingStudents.setFont(new Font("Arial", Font.PLAIN, 13));
 		panel.add(remainingStudents);
 		//---------------------------------------------------------------------------
 		
 		JLabel hoursLabel = new JLabel("Available Hours:");
-		sl_panel.putConstraint(SpringLayout.NORTH, hoursLabel, 84, SpringLayout.SOUTH, selectLabel);
-		sl_panel.putConstraint(SpringLayout.EAST, hoursLabel, -50, SpringLayout.WEST, hoursBox);
-		sl_panel.putConstraint(SpringLayout.NORTH, hoursBox, -3, SpringLayout.NORTH, hoursLabel);
-		hoursLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+		sl_panel.putConstraint(SpringLayout.EAST, remainingStudents, 0, SpringLayout.EAST, hoursLabel);
+		sl_panel.putConstraint(SpringLayout.WEST, hoursLabel, 91, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.WEST, suggestedRoomsList, 0, SpringLayout.WEST, hoursLabel);
+		sl_panel.putConstraint(SpringLayout.WEST, hoursBox, 49, SpringLayout.EAST, hoursLabel);
+		sl_panel.putConstraint(SpringLayout.NORTH, hoursLabel, 1, SpringLayout.NORTH, hoursBox);
+		hoursLabel.setFont(new Font("Arial", Font.PLAIN, 17));
 		panel.add(hoursLabel);
 		
 		JButton btnNewButton = new JButton("Confirm");
@@ -117,10 +130,23 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 14, SpringLayout.SOUTH, panel);
 		
 		JLabel suggestedRoomsLabel = new JLabel("Suggested Rooms:");
-		sl_panel.putConstraint(SpringLayout.NORTH, suggestedRoomsLabel, 11, SpringLayout.SOUTH, hoursBox);
-		sl_panel.putConstraint(SpringLayout.WEST, suggestedRoomsLabel, 157, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, suggestedRoomsList, 9, SpringLayout.SOUTH, suggestedRoomsLabel);
+		sl_panel.putConstraint(SpringLayout.WEST, suggestedRoomsLabel, 91, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, suggestedRoomsLabel, 6, SpringLayout.SOUTH, hoursLabel);
 		suggestedRoomsLabel.setFont(new Font("Arial", Font.PLAIN, 17));
 		panel.add(suggestedRoomsLabel);
+		
+		textField = new JTextField();
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBackground(new Color(170, 255, 249));
+		sl_panel.putConstraint(SpringLayout.NORTH, textField_1, -1, SpringLayout.NORTH, remainingStudents);
+		sl_panel.putConstraint(SpringLayout.WEST, textField_1, 6, SpringLayout.EAST, remainingStudents);
+		sl_panel.putConstraint(SpringLayout.EAST, textField_1, -241, SpringLayout.EAST, panel);
+		panel.add(textField_1);
+		textField_1.setColumns(10);
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 184, SpringLayout.WEST, this.getContentPane());
 		this.getContentPane().add(btnNewButton);
 		
@@ -131,17 +157,59 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		
+		String selectedDate = dateChooser.getDateFormatString();
+		String convertedDate = ES.ConvertDate(selectedDate);
+		Course[] coursesArray= new Course[6];
+		coursesArray = ES.findDate(convertedDate);
+		
+		int i=-1;
 		if(e.getSource() == searchButton) {
-			//get date. Then search for this date in the  
-			//System.out.println(dateChooser.getDate());			
 			
 			
-		}else {
-			
-			
-			
+			for(i=0; i<=coursesArray.length; i++) {
+				if(!(coursesArray[i] instanceof Course)) {
+					switch(i) {
+						case 0:
+							hoursBox.addItem("9:00-11:00");
+							break;
+						case 1:
+							hoursBox.addItem("11:00-13:00");
+							break;
+						case 2:
+							hoursBox.addItem("13:00-15:00");
+							break;
+						case 3:
+							hoursBox.addItem("15:00-17:00");
+							break;
+						case 4:
+							hoursBox.addItem("17:00-19:00");
+							break;
+						case 5:
+							hoursBox.addItem("19:00-21:00");
+							break;
+					}
+					
+				
+			}
 		}
+		}else{
+			//add selected course object to selected date array depending on the exam zone selected
+			
+			
+			
+		
+			
 		
 	}
+	/*	 private HashMap<int, String> createHoursMap() {
+		        HashMap<String, Course> map = new HashMap<>();
+		        for (Course c : courses) {
+		            map.put(c.getCourseName(), c);
+		        }
+		        return map;
+		    }*/
 
+}
 }

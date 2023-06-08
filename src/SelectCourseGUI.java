@@ -25,12 +25,6 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 		this.ES=ES;
 		courses.addAll(S.getCourseList());
 	
-		
-		this.setAlwaysOnTop(true);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ELENI\\Documents\\Exams-Scheduler-App-\\logo.png"));
-		this.setTitle("Select Course");
-		this.setSize(400,400);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
 		this.getContentPane().setLayout(springLayout);
 		
@@ -56,6 +50,12 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 		springLayout.putConstraint(SpringLayout.WEST, btnConfirm, 149, SpringLayout.WEST, this.getContentPane());
 		this.getContentPane().add(btnConfirm);
 		
+		this.setAlwaysOnTop(true);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
+		this.setTitle("Select Course");
+		this.setSize(400,400);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		
 	}
@@ -79,7 +79,7 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 		
 		if(selectedCourse == null) System.exit(1);
 		//Use the course object in next GUI...
-		new ScheduleExamGUI(S/*,ES*/,selectedCourse);
+		new ScheduleExamGUI(ES,selectedCourse);
 		this.dispose();
 		
 		

@@ -52,10 +52,10 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	private JDateChooser finaldateChooser;
 	private static JButton button;
 	private JComboBox<String> periodBox;
+	private static ExamScheduler ES;
 	
 	
-	
-	public RoomsGUI() {
+	public RoomsGUI(ExamScheduler ES) {
 		
 		roomsPanel= new JPanel();// Creating the panel that contains the components 
 		roomsPanel.setLayout(new FlowLayout(FlowLayout.CENTER,1000,15));
@@ -162,8 +162,8 @@ public class RoomsGUI extends JFrame implements ActionListener {
 		finaldateChooser.setPreferredSize(new Dimension(90,20));
 		periodPanel.add(finaldateChooser);
 		
-		periodBox = new JComboBox();
-		periodBox.setModel(new DefaultComboBoxModel(new String[] {"Χειμερινή", "Εαρινή", "Επαναληπτική"}));
+		periodBox = new JComboBox<String>();
+		periodBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Χειμερινή", "Εαρινή", "Επαναληπτική"}));
 		periodPanel.add(periodBox);
 		
 		button = new JButton("Confirm");
@@ -174,20 +174,22 @@ public class RoomsGUI extends JFrame implements ActionListener {
 		
 		
 		getContentPane().add(roomsPanel);
-		this.setVisible(true);
+		
 		this.setSize(800,800);
 		this.setTitle("University Rooms");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		ImageIcon logo= new ImageIcon("logo.png");
 		this.setIconImage(logo.getImage());
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 		
 	}
 	
 	
 	public static RoomsGUI getInstance() {
 		if(instance) {
-			RoomsGUI roomsGUI= new RoomsGUI();
+			RoomsGUI roomsGUI= new RoomsGUI(ES);
 			instance=false;
 			return roomsGUI;
 		}
@@ -209,11 +211,17 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				int ampnum = Integer.parseInt(ampnumText.getText());
 				int ampcap = Integer.parseInt(ampcapText.getText());
 				
-				//!!!
-				//Πρωτον δεν μπορω να κανω ExamScheduler γιατι στον κατασκευαστη εχετε τον πινακα
-				//Δευτερον στην Secretary  δεν εχετε βαλει στον κατασκευαστη για να περναω τις ημερομηνιες
-				//Χρειαζεται να διορθωθουν αυτα για να μπορω να χρησιμοποιησω την ConvertAndSplitDate της ExamScheduler
-				Secretary scheduler= new Secretary(period,audcap,ampcap,audnum,ampnum);
+				//Getting start date
+				startdateChooser.getDate();
+				String selectedDate1 = startdateChooser.getDateFormatString();
+				String startDate =ES.ConvertDate(selectedDate1);
+				
+				//Getting end date
+				finaldateChooser.getDate();
+				String selectedDate2 = startdateChooser.getDateFormatString();
+				String endDate = ES.ConvertDate(selectedDate2);
+				
+				Secretary scheduler= new Secretary(period,audcap,ampcap,audnum,ampnum,startDate,endDate);
 				new InsertCourseGUI(scheduler);
 				this.dispose();
 			}else {
@@ -225,8 +233,8 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	}
 	
 	public boolean checkTextFieldsAndDates() {
-		
-		if(audnumText.getText().equals("")) {
+		return true; //temporary
+		/*if(audnumText.getText().equals("")) {
 			return (false);
 		}else if(audcapText.getText().equals("")) {
 			return (false);
@@ -234,17 +242,19 @@ public class RoomsGUI extends JFrame implements ActionListener {
 			return (false);
 		}else if(ampcapText.getText().equals("")) {
 			return (false);
-		}/*else if(startdateChooser.getDateFormatString().equals("")) {
+		/*}else if(startdateChooser.getDateFormatString().equals("")) {
 			return (false);
 		}else if(finaldateChooser.getDateFormatString().equals("")) {
 			return (false);
 		}//Δεν δουλευουν οι συνθηκες!!!
-		*/
+		
+		
+		if(audnumText.getText().equals(""))
 		
 		else {
 			System.out.println(startdateChooser.getDateFormatString());
 			return(true);
 		}
+		}*/
 	}
-
 }

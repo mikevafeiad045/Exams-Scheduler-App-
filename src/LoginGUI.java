@@ -42,7 +42,6 @@ public class LoginGUI extends JFrame implements ActionListener{
 		
 		this.setLayout(new FlowLayout(FlowLayout.CENTER,1000,50));
 		this.getContentPane().setBackground(new Color(87,87,87));
-		this.setVisible(true);
 		this.setSize(300,400);
 		this.setTitle("Log In Page");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,8 +49,8 @@ public class LoginGUI extends JFrame implements ActionListener{
 		//Frame Icon
 		ImageIcon logo= new ImageIcon("logo.png");
 		this.setIconImage(logo.getImage());
-		
-		
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 		
 	}
 

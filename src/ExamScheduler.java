@@ -5,11 +5,13 @@ import java.util.Date;
 public class ExamScheduler extends Secretary{
 	
 	static final int EXAM_ZONES = 6;
-	ArrayList<ExamDate> dates = new ArrayList<>();
+	private ArrayList<ExamDate> dates = new ArrayList<>();
 
 	
-	 public ExamScheduler(int period, int capacityAud, int capacityAmph, int numberOfAud, int numberOfAmph) {
-		super(period, capacityAud, capacityAmph, numberOfAud, numberOfAmph);
+	 public ExamScheduler(int period, int capacityAud, int capacityAmph, int numberOfAud, 
+			 int numberOfAmph, String startDate, String endDate) {
+		 
+		super(period, capacityAud, capacityAmph, numberOfAud, numberOfAmph,startDate,endDate);
 	}
 	 
 	 
@@ -83,5 +85,11 @@ public class ExamScheduler extends Secretary{
 	    return outputDate; 
     
 	}
+
+
+	public ArrayList<ExamDate> getDates() {
+		return dates;
+	}
+	
 
 }
