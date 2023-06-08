@@ -18,7 +18,7 @@ import java.awt.Window;
 import javax.swing.JButton;
 
 
-public class SecretaryGUI2 extends JFrame{
+public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListener{
 	
 	JButton viewProgButton;
 	JButton logoutButton;
@@ -54,9 +54,9 @@ public class SecretaryGUI2 extends JFrame{
 		logoutButton.setForeground(new Color(0, 0, 0));
 		logoutButton.setBackground(new Color(255, 255, 255));
 		
-		ButtonListener listener = new ButtonListener();
-		logoutButton.addActionListener(listener);
-		viewProgButton.addActionListener(listener);
+		
+		logoutButton.addActionListener(this);
+		viewProgButton.addActionListener(this);
 	
 		logoutButton.setBounds(330, 256, 76, 27);
 		getContentPane().add(logoutButton);
@@ -66,10 +66,8 @@ public class SecretaryGUI2 extends JFrame{
 		resetLabel.setBounds(25, 256, 173, 27);
 		resetLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
-		ResetLabelListener MListener = new ResetLabelListener();
-		resetLabel.addMouseListener(MListener);
 		
-		
+		resetLabel.addMouseListener(this);
 		
 		getContentPane().add(resetLabel);
 		//Frame Icon
@@ -85,46 +83,35 @@ public class SecretaryGUI2 extends JFrame{
 		
 	}
 	
-	class ButtonListener implements ActionListener {
 		
-		@Override
 		public void actionPerformed(ActionEvent e) {
 		
 			if(e.getSource()==viewProgButton) {
 				new CalendarGUI();
-				//this.dispose();--doesnt work targets subclass
 			}else if(e.getSource()==logoutButton) {
 				new LoginGUI();
-				//this.dispose();--doesnt work: targets subclass
 			}
-		
+			this.dispose(); 
 		}
-	}
-	
-	class ResetLabelListener implements MouseListener {
-		 
-		 public void mouseClicked(MouseEvent e) {
-	            // Mouse click event handling
-			  JOptionPane.showMessageDialog(SecretaryGUI2.this, "Tappable text clicked!");
-	        }
 
-		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
+		
+		 
+		public void mouseClicked(MouseEvent e) {
+	            // Mouse click event handling
+			 // JOptionPane.showMessageDialog(SecretaryGUI2.this, "Tappable text clicked!");
 			
+	    }
+
+		
+		public void mousePressed(MouseEvent e) {
 		}
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub	
+		public void mouseReleased(MouseEvent e) {	
 		}
-		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub	
 		}
-		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub	
 		}
 	 }
+	
 
-}
+//}

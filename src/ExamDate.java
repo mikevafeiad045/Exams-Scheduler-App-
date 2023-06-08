@@ -15,7 +15,7 @@ public class ExamDate {
     public int calcRow(String s) { //Calculating the row of the time period
 
         String temp=s.substring(0,2);//getting the first 2 chars of the string (exam start hour)
-        int start = Integer.parseInt(temp);//converting String to int
+        int start = Integer.parseInt(temp,10);//converting String to int
 
         switch(start) {
         case 9:
@@ -42,12 +42,12 @@ public class ExamDate {
 
     }
 
-    public void checkAvailibility(Course c, String s) { //Checking and adding if the time zone is not occupied
+    public boolean checkAvailibility(Course c, String s) { //Checking and adding if the time zone is not occupied
         int num = calcRow(s);
         if (zones[num]!= null) {
-            //GUI OCCUPIED!
+            return false;
         }else addCourse(c,num);
-
+        return true;
     }
 
     public Course[] getZone() {

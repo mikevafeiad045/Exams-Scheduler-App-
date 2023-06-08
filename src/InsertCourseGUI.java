@@ -20,15 +20,12 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	private JTextField numtextField;
 	private JButton insertButton;
 	private JButton confirmButton;
+	private Secretary secr;
+	private ExamScheduler ES;
 	
-	public InsertCourseGUI(Secretary scheduler) {
+	public InsertCourseGUI(Secretary secr, ExamScheduler ES) {
 		//"C:\\Users\\ELENI\\Documents\\Exams-Scheduler-App-\\
-		this.setAlwaysOnTop(true);
-		this.setVisible(true);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
-		this.setTitle("Secretary");
-		this.setSize(600,600);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		SpringLayout springLayout = new SpringLayout();
 		this.getContentPane().setLayout(springLayout);
 		
@@ -41,11 +38,11 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		this.getContentPane().add(insertLabel);
 		
 		JPanel InsertPanel = new JPanel();
+		springLayout.putConstraint(SpringLayout.EAST, InsertPanel, 521, SpringLayout.WEST, getContentPane());
 		InsertPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		springLayout.putConstraint(SpringLayout.NORTH, InsertPanel, 42, SpringLayout.NORTH, this.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, InsertPanel, -343, SpringLayout.SOUTH, this.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, InsertPanel, 73, SpringLayout.WEST, this.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, InsertPanel, 509, SpringLayout.WEST, this.getContentPane());
 		this.getContentPane().add(InsertPanel);
 		SpringLayout sl_InsertPanel = new SpringLayout();
 		InsertPanel.setLayout(sl_InsertPanel);
@@ -62,7 +59,7 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		InsertPanel.add(coursetextField);
 		coursetextField.setColumns(10);
 		
-		JLabel profLabel = new JLabel("Professor ");
+		JLabel profLabel = new JLabel("Professor(s)");
 		sl_InsertPanel.putConstraint(SpringLayout.WEST, profLabel, 19, SpringLayout.EAST, coursetextField);
 		profLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 		InsertPanel.add(profLabel);
@@ -99,11 +96,25 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		confirmButton.addActionListener(this);
 		this.getContentPane().add(confirmButton);
 		
+		this.setAlwaysOnTop(true);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
+		this.setTitle("Secretary");
+		this.setSize(600,600);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==confirmButton) {
+		if(e.getSource()== insertButton) {
+			String numOfStudents = numtextField.getText();
+			String profs = proftextField.getText();
+			Course c = new Course(coursetextField.getText(),Integer.parseInt(numOfStudents));
+			this.addProfsToCourse(c, profs);
+			secr.addCourse(c);
+			
+		}else {
 			this.dispose();
 			new LoginGUI();
 		}

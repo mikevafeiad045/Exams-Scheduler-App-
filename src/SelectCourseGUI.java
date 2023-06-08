@@ -16,14 +16,13 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 	private JButton btnConfirm;
 	private JComboBox<String> courseBox;
 	private ArrayList<Course> courses;
-	private Secretary S;
 	private ExamScheduler ES;
 	
 	
-	public SelectCourseGUI(Secretary S, ExamScheduler ES) {
-		this.S=S;
+	public SelectCourseGUI(ExamScheduler ES) {
+		
 		this.ES=ES;
-		courses.addAll(S.getCourseList());
+		courses.addAll(ES.getCourseList());
 	
 		SpringLayout springLayout = new SpringLayout();
 		this.getContentPane().setLayout(springLayout);
@@ -73,7 +72,6 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 			
 		}catch(Exception e1) {
 			e1.printStackTrace();
-			//System.exit(1);	
 		}
 		
 		

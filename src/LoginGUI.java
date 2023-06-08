@@ -16,6 +16,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 	private static JButton loginButton;
 	private static JPasswordField passwordField;
 	private static JLabel passwordLabel;
+	private static boolean firstLogin = true;
 	
 	public LoginGUI() {
 		
@@ -56,22 +57,30 @@ public class LoginGUI extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
 		if(e.getSource()==loginButton) {
 			String inputPass = String.valueOf(passwordField.getPassword());
 			
 			if(inputPass.equals("$3cReT4rY")) {
 				this.dispose();
-				RoomsGUI roomsGUI= RoomsGUI.getInstance();
-				if(roomsGUI!=null) {
-					roomsGUI.setVisible(true);
+				if(firstLogin){
+					
+					RoomsGUI roomsGUI= RoomsGUI.getInstance();
+					
+					if(roomsGUI!=null) {
+						roomsGUI.setVisible(true);
+					}else {
+						new RoomsGUI();//new InsertCourseGUI(null);
+					}
+					
+				}else {
+					new SecretaryGUI2();
+					
 				}
-				else {
-					new InsertCourseGUI(null);
-				}
+			
 			}else if(inputPass.equals("pR0!3$$oR")) {
 				this.dispose();
-				//new ProfGUI().getVisible(true);
+				new SelectCourseGUI(null);
 			}else {//Wrong Password
 				JOptionPane.showMessageDialog(null,"Wrong Password! Please try again.","ERROR",JOptionPane.ERROR_MESSAGE);
 				passwordField.setText("");

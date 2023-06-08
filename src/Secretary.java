@@ -10,7 +10,7 @@ public class Secretary {
 	protected int numberOfAmph;
 	protected String startDate;
 	protected String endDate;
-	protected boolean firstLogin;
+	
 	
 	
 	public Secretary(int period, int capacityAud,int capacityAmph, int numberOfAud, int numberOfAmph, String startDate, String endDate) {
@@ -24,7 +24,6 @@ public class Secretary {
 		this.numberOfAmph = numberOfAmph;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.firstLogin=true;
 	}
 
 	

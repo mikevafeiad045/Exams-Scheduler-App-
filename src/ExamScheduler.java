@@ -57,7 +57,6 @@ public class ExamScheduler extends Secretary{
 	            
 	     } catch (Exception e) {
 	            e.printStackTrace();
-	            //parts[0] = -1;
 	            System.exit(1);
 	     }
 		 

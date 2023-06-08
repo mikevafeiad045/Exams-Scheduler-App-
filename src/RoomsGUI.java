@@ -55,7 +55,7 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	private static ExamScheduler ES;
 	
 	
-	public RoomsGUI(ExamScheduler ES) {
+	public RoomsGUI() {
 		
 		roomsPanel= new JPanel();// Creating the panel that contains the components 
 		roomsPanel.setLayout(new FlowLayout(FlowLayout.CENTER,1000,15));
@@ -189,7 +189,7 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	
 	public static RoomsGUI getInstance() {
 		if(instance) {
-			RoomsGUI roomsGUI= new RoomsGUI(ES);
+			RoomsGUI roomsGUI= new RoomsGUI();
 			instance=false;
 			return roomsGUI;
 		}
@@ -222,10 +222,11 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				String endDate = ES.ConvertDate(selectedDate2);
 				
 				Secretary scheduler= new Secretary(period,audcap,ampcap,audnum,ampnum,startDate,endDate);
-				new InsertCourseGUI(scheduler);
+				ExamScheduler ES = new ExamScheduler(period,audcap,ampcap,audnum,ampnum,startDate,endDate);
+				new InsertCourseGUI(scheduler,ES);
 				this.dispose();
 			}else {
-				JOptionPane.showMessageDialog(null,"All the field are Required!");
+				JOptionPane.showMessageDialog(null,"All the fields are Required!");
 			}
 			
 		}
@@ -233,8 +234,9 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	}
 	
 	public boolean checkTextFieldsAndDates() {
-		return true; //temporary
-		/*if(audnumText.getText().equals("")) {
+	
+		/*
+		if(audnumText.getText().equals("")) {
 			return (false);
 		}else if(audcapText.getText().equals("")) {
 			return (false);
@@ -242,19 +244,27 @@ public class RoomsGUI extends JFrame implements ActionListener {
 			return (false);
 		}else if(ampcapText.getText().equals("")) {
 			return (false);
-		/*}else if(startdateChooser.getDateFormatString().equals("")) {
+		}else if(startdateChooser.getDateFormatString().equals("")) {
 			return (false);
 		}else if(finaldateChooser.getDateFormatString().equals("")) {
 			return (false);
-		}//Δεν δουλευουν οι συνθηκες!!!
-		
-		
-		if(audnumText.getText().equals(""))
-		
-		else {
-			System.out.println(startdateChooser.getDateFormatString());
-			return(true);
 		}
-		}*/
+		*/
+		
+		if(audnumText.getText().equals("") 
+			|| audcapText.getText().equals("")
+			|| ampnumText.getText().equals("")
+			|| ampcapText.getText().equals("")
+			|| startdateChooser.getDateFormatString().equals("")
+			|| finaldateChooser.getDateFormatString().equals("")
+			) 
+		{
+				return false;
+		
+		}else {
+				System.out.println(startdateChooser.getDateFormatString());
+				return(true);
+		}
 	}
 }
+
