@@ -1,8 +1,16 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,11 +26,12 @@ import javax.swing.SpringLayout;
 
 import com.toedter.calendar.JDateChooser;
 import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.JTextField;
 
 
 
-public class ScheduleExamGUI extends JFrame implements ActionListener {
+public class ScheduleExamGUI extends JFrame implements ActionListener, MouseListener {
 	
 	private JPanel panel;
 	private JLabel courseLabel;
@@ -35,24 +44,37 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 	private ExamScheduler ES;
 	private String def[] =new String[] {"9:00-11:00", "11:00-13:00", "13:00-15:00", "15:00-17:00", "17:00-19:00", "19:00-21:00"};
 	private JTextField remStudField;
+	private String[] listValues; 
+	private int roomsListSize;
+	private ArrayList<Room> rooms;
+	private AbstractListModel<String> listModel; 
+	private ArrayList<String> tempRooms;
+	private Course selectedCourse;
+	private HashMap<String, Room> roomsMap;
+	private HashMap<String, Integer> hoursMap;
+	
 	
 	
 	public ScheduleExamGUI(ExamScheduler ES, Course selectedCourse) {
+		//---------------------/!\ Auto mporei na ginei methodos
+		this.ES = ES;
+		this.selectedCourse=selectedCourse;
+		rooms = ES.getRoomList();
+	
+		roomsListSize = rooms.size();
 		
-		ArrayList<Room> rooms = ES.getRoomList();
-		ArrayList<String> roomCodes = null;
+		listValues = new String[roomsListSize];
 		
+		int i=0;
 		for(Room r : rooms) {
 			String roomName = r.getRoomName();
-			roomCodes.add(roomName);
-		
+			listValues[i] = roomName;
+			i++;
 		}
+		//----------------------/!\
 		
-		this.setAlwaysOnTop(true);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
-		this.setTitle("Schedule The Exam");
-		this.setSize(500,500);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		hoursMap = this.createHoursMap();
+	
 		SpringLayout springLayout = new SpringLayout();
 		this.getContentPane().setLayout(springLayout);
 		
@@ -92,39 +114,36 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 		searchButton.setFont(new Font("Arial", Font.PLAIN, 15));
 		panel.add(searchButton);
 		
-		JComboBox hoursBox = new JComboBox();
+		JComboBox<String> hoursBox = new JComboBox<String>();
 		sl_panel.putConstraint(SpringLayout.SOUTH, dateChooser, -34, SpringLayout.NORTH, hoursBox);
 		sl_panel.putConstraint(SpringLayout.SOUTH, searchButton, -25, SpringLayout.NORTH, hoursBox);
 		sl_panel.putConstraint(SpringLayout.NORTH, hoursBox, 131, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, hoursBox, -85, SpringLayout.EAST, panel);
 		hoursBox.setModel(new DefaultComboBoxModel(def));
+	//	hoursBox.setRenderer(new DisabledItemsComboBoxRenderer());
 		hoursBox.setFont(new Font("Arial", Font.PLAIN, 15));
 		panel.add(hoursBox);
 		
 		JList<String> suggestedRoomsList = new JList<String>();
 		sl_panel.putConstraint(SpringLayout.SOUTH, suggestedRoomsList, -61, SpringLayout.SOUTH, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, suggestedRoomsList, -97, SpringLayout.EAST, panel);
-		suggestedRoomsList.setModel(new AbstractListModel<String>() {
+		
+		
+		listModel = new AbstractListModel<String>() {
 			//--------/!\
-			String[] values = new String[] {"1", "2", "3", "4", "5"};
+			//String[] listValues = new String[] {"1", "2", "3", "4", "5"};
 			public int getSize() {
-				return values.length;
+				return listValues.length;
 				
 			}
 			public String getElementAt(int index) {
-				return values[index];
+				return listValues[index];
 				
 			}
-			/* !!!!!!!!!!!!!!!!
-			public int getSize() {
-				//return values.length;
-				return roomCodes.size();
-			}
-			public String getElementAt(int index) {
-				//return values[index];
-				return roomCodes.get(index);
-			}*/
-		});
+		};
+		
+		suggestedRoomsList.setModel(listModel);
+		
 		suggestedRoomsList.setFont(new Font("Arial", Font.PLAIN, 13));
 		suggestedRoomsList.setBackground(UIManager.getColor("InternalFrame.resizeIconHighlight"));
 		panel.add(suggestedRoomsList);
@@ -172,7 +191,15 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 184, SpringLayout.WEST, this.getContentPane());
 		this.getContentPane().add(btnNewButton);
 		
-		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		suggestedRoomsList.addMouseListener(this);
+		
+		addWindowListener(new ProgramTerminated(ES));
+		
+		this.setAlwaysOnTop(true);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
+		this.setTitle("Schedule The Exam");
+		this.setSize(500,500);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		
@@ -190,10 +217,9 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 		
 		if(e.getSource() == searchButton) {
 			
-			
-			for(i=0; i<=coursesArray.length; i++) {
-				if(!(coursesArray[i] instanceof Course)) {
-					switch(i) {
+			for(i=0; i<coursesArray.length; i++) {
+				if(coursesArray[i] instanceof Course) {
+					/*switch(i) {
 						case 0:
 							hoursBox.addItem("9:00-11:00");
 							break;
@@ -212,7 +238,9 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 						case 5:
 							hoursBox.addItem("19:00-21:00");
 							break;
-					}
+					}*/
+					
+					//hoursBox.setEnabled;
 					
 				
 					
@@ -224,17 +252,100 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 			
 			
 			
-		
+		}
 			
 		
-	}
-	/*	 private HashMap<int, String> createHoursMap() {
-		        HashMap<String, Course> map = new HashMap<>();
-		        for (Course c : courses) {
-		            map.put(c.getCourseName(), c);
+		}
+		
+		public void mouseClicked(MouseEvent e) {
+			// Mouse click event handling
+			//boolean isSelected = myList.isSelectedIndex(0);
+			
+			int[] indices = suggestedRoomsList.getSelectedIndices();
+			
+			tempRooms = new ArrayList<>();
+			
+			for(int i : indices) {
+				String selectedRoomStr =  listModel.getElementAt(i);
+				
+				roomsMap = this.createRoomsMap();
+				Room selectedRoomObj=null;
+				
+				try {
+					selectedRoomObj =  roomsMap.get(selectedRoomStr);
+					
+				}catch(Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				int tempRoomType = selectedRoomObj.getType();
+				int roomCapacity = -1;
+				
+				if(tempRoomType == 0) {
+					//1h periptwsh: Auditorium
+					roomCapacity = ES.getCapacityAud();
+				
+				}else {
+					//2h periptwsh: Amphitheatre
+					roomCapacity = ES.getCapacityAmph();
+				
+				}
+				
+				int remStud = ES.calcRemainingStudents(selectedCourse.getNumberOfStudents(), roomCapacity);
+				String remStudStr = String.valueOf(remStud);
+				
+				remainingStudents.setText(remStudStr);
+			
+			}
+		
+		
+		
+		}
+
+	
+		public void mousePressed(MouseEvent e) {
+		}
+		public void mouseReleased(MouseEvent e) {	
+		}
+		public void mouseEntered(MouseEvent e) {
+		}
+		public void mouseExited(MouseEvent e) {
+		}
+		
+		
+		private HashMap<String, Integer> createHoursMap() {
+			
+		        HashMap<String, Integer> map = new HashMap<>();
+		        int increment=0;
+		        for (String s : def) {
+		            map.put(s, increment);
+		            increment++;
 		        }
 		        return map;
-		    }*/
+		    }
+			
+		
+		private HashMap<String, Room> createRoomsMap(){
+			HashMap<String, Room> map = new HashMap<>();
+	        for (Room r : rooms) {
+	            map.put(r.getRoomName(), r);
+	        }
+	        return map;
+		}
+		/*
+		static class DisabledItemsComboBoxRenderer extends BasicComboBoxRenderer {
+	        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+	            Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-}
+	            // Check if the item is disabled
+	            if (!list.isEnabled() || !list.isEnabledAt(index)) {
+	                // Set the item to be disabled (greyed out)
+	                component.setEnabled(false);
+	            }
+
+	            return component;
+	        }
+	    }*/
+		
+	
 }

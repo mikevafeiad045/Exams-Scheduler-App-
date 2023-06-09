@@ -124,7 +124,7 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	    list = new JList<String>(listModel);
 		scrollPane.setViewportView(list);
 		
-		
+		addWindowListener(new ProgramTerminated(ES));
 		
 		this.setAlwaysOnTop(true);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));

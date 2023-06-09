@@ -43,6 +43,8 @@ public class LoginGUI extends JFrame implements ActionListener{
 		loginButton.addActionListener(this);//Connecting the button with the action
 		this.add(loginButton);
 		
+		addWindowListener(new ProgramTerminated(ES));
+		
 		
 		this.setLayout(new FlowLayout(FlowLayout.CENTER,1000,50));
 		this.getContentPane().setBackground(new Color(87,87,87));

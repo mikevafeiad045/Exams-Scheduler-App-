@@ -35,8 +35,11 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 	JLabel resetLabel;
 
 	ExamScheduler ES;
+	Secretary S;
 
 	public SecretaryGUI2(Secretary S, ExamScheduler ES) {
+		this.S = S;
+		this.ES = ES;
 		/*-----------/!\ Temporary
 		ArrayList<Course> tempList = S.getCourseList();
 		int sizeofList = tempList.size();
@@ -108,6 +111,8 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		this.setIconImage(logo.getImage());
 		getContentPane().setLayout(null);
 		
+		addWindowListener(new ProgramTerminated(ES));
+		
 		this.setSize(453,350);
 		this.setTitle("Secretary options");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,7 +136,7 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		 
 		public void mouseClicked(MouseEvent e) {
 	            // Mouse click event handling
-			 // JOptionPane.showMessageDialog(SecretaryGUI2.this, "Tappable text clicked!");
+			
 			
 			ES.saveToRoomsFile(ES);
 			ES.saveToCourseFile(ES);

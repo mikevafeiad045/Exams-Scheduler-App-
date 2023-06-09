@@ -49,6 +49,8 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 		springLayout.putConstraint(SpringLayout.WEST, btnConfirm, 149, SpringLayout.WEST, this.getContentPane());
 		this.getContentPane().add(btnConfirm);
 		
+		addWindowListener(new ProgramTerminated(ES));
+		
 		this.setAlwaysOnTop(true);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
 		this.setTitle("Select Course");

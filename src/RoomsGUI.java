@@ -52,10 +52,10 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	private JDateChooser finaldateChooser;
 	private static JButton button;
 	private JComboBox<String> periodBox;
-	private static ExamScheduler ES;
+	private ExamScheduler ES;
 	
 	
-	public RoomsGUI() {
+	public RoomsGUI(/*ExamScheduler ES*/) {
 		
 		roomsPanel= new JPanel();// Creating the panel that contains the components 
 		roomsPanel.setLayout(new FlowLayout(FlowLayout.CENTER,1000,15));
@@ -171,9 +171,9 @@ public class RoomsGUI extends JFrame implements ActionListener {
 		button.addActionListener(this);
 		roomsPanel.add(button);
 		
-		
-		
 		getContentPane().add(roomsPanel);
+		
+		addWindowListener(new ProgramTerminated(ES));
 		
 		this.setSize(800,800);
 		this.setTitle("University Rooms");
@@ -213,7 +213,7 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				
 				//Getting start date
 				startdateChooser.getDate();
-				String selectedDate1 = startdateChooser.getDateFormatString();
+				String selectedDate1 = startdateChooser.getDateFormatString();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				String startDate =ES.ConvertDate(selectedDate1);
 				
 				//Getting end date
@@ -221,10 +221,23 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				String selectedDate2 = startdateChooser.getDateFormatString();
 				String endDate = ES.ConvertDate(selectedDate2);
 				
-				Secretary scheduler= new Secretary(period,audcap,ampcap,audnum,ampnum,startDate,endDate);
+				Secretary S= new Secretary(period,audcap,ampcap,audnum,ampnum,startDate,endDate);
 				ExamScheduler ES = new ExamScheduler(period,audcap,ampcap,audnum,ampnum,startDate,endDate);
 				
-				new InsertCourseGUI(scheduler,ES);
+				for(int i=0; i<ampnum; i++) {
+					
+					Room room = new Room("AMP"+(i+1),ampcap);
+					S.addRoom(room);
+				}
+				
+				for(int i=0; i<audnum; i++) {
+					
+					Room room = new Room("AUD"+(i+1),audcap);
+					S.addRoom(room);
+				}
+				
+				
+				new InsertCourseGUI(S,ES);
 				this.dispose();
 			}else {
 				JOptionPane.showMessageDialog(null,"All the fields are Required!");
@@ -236,22 +249,6 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	
 	public boolean checkTextFieldsAndDates() {
 	
-		/*
-		if(audnumText.getText().equals("")) {
-			return (false);
-		}else if(audcapText.getText().equals("")) {
-			return (false);
-		}else if(ampnumText.getText().equals("")) {
-			return (false);
-		}else if(ampcapText.getText().equals("")) {
-			return (false);
-		}else if(startdateChooser.getDateFormatString().equals("")) {
-			return (false);
-		}else if(finaldateChooser.getDateFormatString().equals("")) {
-			return (false);
-		}
-		*/
-		
 		if(audnumText.getText().equals("") 
 			|| audcapText.getText().equals("")
 			|| ampnumText.getText().equals("")

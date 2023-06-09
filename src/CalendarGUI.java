@@ -40,8 +40,9 @@ public class CalendarGUI extends JFrame{
 		
 		list.setModel(model);
 		for(ExamDate d: exams) {
-			String e1 = d.day;
+			Course[] e1 = d.getZone();
 			
+		
 			
 			
 			model.addElement(d);
@@ -52,6 +53,7 @@ public class CalendarGUI extends JFrame{
 		revalidate();
 		list.setVisible(true);
 		
+		addWindowListener(new ProgramTerminated(ES));
 		
 		ImageIcon logo= new ImageIcon("logo.png");
 		this.setIconImage(logo.getImage());
@@ -64,6 +66,8 @@ public class CalendarGUI extends JFrame{
 		this.setVisible(true);
 	
 	}
+	
+	
 	
 }
 
