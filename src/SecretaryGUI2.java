@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
@@ -16,6 +17,13 @@ import java.awt.Font;
 import java.awt.Window;
 
 import javax.swing.JButton;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.io.IOException;
+import java.lang.reflect.Array;
 
 
 public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListener{
@@ -25,11 +33,32 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 	JComboBox<String> courseBoxList;
 	JLabel optionsLabel;
 	JLabel resetLabel;
-	ExamScheduler es;
 
-	public SecretaryGUI2(ExamScheduler ES) {
+	ExamScheduler ES;
+
+	public SecretaryGUI2(Secretary S, ExamScheduler ES) {
+		/*-----------/!\ Temporary
+		ArrayList<Course> tempList = S.getCourseList();
+		int sizeofList = tempList.size();
 		
-		es=ES;
+		String listA[] = new String[sizeofList];
+		
+		for(int i=0 ; i<=sizeofList; i++) {
+			listA[i] = tempList.get(i).getCourseName();
+		}*/
+		//-----------------------------/!\
+		
+		ArrayList<Course> tempList = S.getCourseList();
+		int sizeOfList = tempList.size();
+
+		String[] listA = new String[sizeOfList];
+
+		for (int i = 0; i < sizeOfList; i++) {
+		    listA[i] = tempList.get(i).getCourseName();
+		}
+
+		
+
 		
 		courseBoxList = new JComboBox<String>();
 		courseBoxList.addItem("-Courses-");
@@ -40,6 +69,7 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		courseBoxList.setBackground(new Color(255, 255, 255));
 		courseBoxList.setMaximumRowCount(30);
 		courseBoxList.setBounds(119, 92, 190, 35);
+		courseBoxList.setModel(new DefaultComboBoxModel<String>(listA));
 		getContentPane().add(courseBoxList);
 		
 		optionsLabel = new JLabel("Options");
@@ -90,9 +120,9 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		public void actionPerformed(ActionEvent e) {
 		
 			if(e.getSource()==viewProgButton) {
-				new CalendarGUI(es);
+				new CalendarGUI(ES);
 			}else if(e.getSource()==logoutButton) {
-				new LoginGUI(es);
+				new LoginGUI(ES);
 			}
 			this.dispose(); 
 		}
@@ -102,6 +132,26 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		public void mouseClicked(MouseEvent e) {
 	            // Mouse click event handling
 			 // JOptionPane.showMessageDialog(SecretaryGUI2.this, "Tappable text clicked!");
+			
+			ES.saveToRoomsFile(ES);
+			ES.saveToCourseFile(ES);
+			
+			 //path of the file to delete
+	        String filePath = "dates.ser";
+
+	        // Create a Path object with the specified file path
+	        Path pathToDelete = Paths.get(filePath);
+
+
+	        try {
+	            // Delete the file using the delete() method from Files class
+	            Files.delete(pathToDelete);
+	            System.out.println("File deleted successfully.");
+	        } catch (IOException e1) {
+	            System.out.println("Failed to delete the file: " + e1.getMessage());
+	        }
+			
+			System.exit(0);
 			
 	    }
 

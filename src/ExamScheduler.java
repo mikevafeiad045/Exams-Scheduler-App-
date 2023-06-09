@@ -1,6 +1,15 @@
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 public class ExamScheduler extends Secretary{
 	
@@ -91,4 +100,177 @@ public class ExamScheduler extends Secretary{
 	}
 	
 
+	public void saveToAvailabilityFile(ExamScheduler e)
+	{		
+        ArrayList<ExamDate> tempDates = e.getDates();
+        
+        try 
+        {			       	
+        	FileOutputStream fileOut = new FileOutputStream("dates.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(tempDates);
+			out.close();
+		    fileOut.close();			
+		}		
+		catch(IOException i) 
+        {
+			i.printStackTrace();
+		} 
+	}
+	
+	public void openAvailabilityFile()
+	{
+		try 
+		{			
+			FileInputStream fileIn = new FileInputStream("dates.ser");			
+			ObjectInputStream in = new ObjectInputStream(fileIn);			
+				
+			ArrayList<ExamDate> inDates = (ArrayList<ExamDate>)in.readObject();
+				
+			fileIn.close();
+			in.close();
+				
+			for(ExamDate d: inDates)
+			{
+				dates.add(d);
+			}
+		}
+		catch(FileNotFoundException e) 
+		{			
+			e.printStackTrace();
+		}
+		catch(IOException e) 
+		{				
+			e.printStackTrace();			
+		} 
+		catch (ClassNotFoundException e) 
+		{				
+			e.printStackTrace();
+		}
+	}
+	
+	public void saveToRoomsFile(Secretary s)
+	{   		
+        ArrayList<Room> tempRooms = s.getRoomList();
+        
+        try 
+        {			       	
+        	FileOutputStream fileOut = new FileOutputStream("rooms.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(tempRooms);
+			out.close();
+		    fileOut.close();			
+		}		
+		catch(IOException i) 
+        {
+			i.printStackTrace();
+		} 
+	}
+	
+	public void openRoomsFile(Secretary s)
+	{		
+		try 
+		{			
+			FileInputStream fileIn = new FileInputStream("rooms.ser");			
+			ObjectInputStream in = new ObjectInputStream(fileIn);			
+				
+			ArrayList<Room> outRooms = (ArrayList<Room>)in.readObject();
+				
+			fileIn.close();
+			in.close();
+				
+			for(Room r: outRooms)
+			{
+				s.addRoom(r);
+			}
+		}
+		catch(FileNotFoundException e) 
+		{			
+			e.printStackTrace();
+		}
+		catch(IOException e) 
+		{				
+			e.printStackTrace();			
+		} 
+		catch (ClassNotFoundException e) 
+		{				
+			e.printStackTrace();
+		}					
+	}
+		
+	public void saveToCourseFile(Secretary s) 
+	{		
+		ArrayList<Course> tempCourses = s.getCourseList();
+        
+        try {
+			if(s.getPeriod()==0)
+			{        	
+        	    FileOutputStream fileOut = new FileOutputStream("xeimerino.ser");
+			    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			    out.writeObject(tempCourses);
+			    out.close();
+			    fileOut.close();			
+			}
+			else if(s.getPeriod()==1)
+			{
+				FileOutputStream fileOut = new FileOutputStream("earino.ser");
+			    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			    out.writeObject(tempCourses);
+			    out.close();
+			    fileOut.close();
+			}
+		}
+		catch(IOException i) {
+			i.printStackTrace();
+		}          
+	}
+	
+	public void openFromCourseFile(Secretary s) 
+	{        
+		try 
+		{
+			if(s.getPeriod()==0 || s.getPeriod()==2)
+			{
+				FileInputStream fileIn = new FileInputStream("xeimerino.ser");			
+				ObjectInputStream in = new ObjectInputStream(fileIn);			
+				
+				ArrayList<Course> outCourses = (ArrayList<Course>)in.readObject();
+				
+				fileIn.close();
+				in.close();
+				
+				for(Course c: outCourses)
+				{
+					s.addCourse(c);
+				}
+			}
+			if(s.getPeriod()==1 || s.getPeriod()==2)
+			{
+				FileInputStream fileIn = new FileInputStream("earino.ser");			
+				ObjectInputStream in = new ObjectInputStream(fileIn);			
+				
+				ArrayList<Course> outCourses = (ArrayList<Course>)in.readObject();
+				
+				fileIn.close();
+				in.close();
+				
+				for(Course c: outCourses)
+				{
+					s.addCourse(c);
+				}
+			}					
+		}		 
+		catch(FileNotFoundException e) 
+		{			
+			e.printStackTrace();
+		}
+		catch(IOException e) 
+		{				
+			e.printStackTrace();			
+		} 
+		catch (ClassNotFoundException e) 
+		{				
+			e.printStackTrace();
+		}
+    }	
 }
