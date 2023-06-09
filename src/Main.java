@@ -10,15 +10,15 @@ public class Main {
 		
 		Course c = new Course("Algorithms",100);
 		
-		//new ScheduleExamGUI(ES,selectedCourse);
-		
+		//new ScheduleExamGUI(ES,c);
+		Secretary S= new Secretary(10,10,10,10,10,"05-05-23","17-05-23");
 		//new RoomsGUI(ES);
-		//new SecretaryGUI2();
+		new SecretaryGUI2(S, ES);
 		
 		//new LoginGUI();
-		new ScheduleExamGUI(ES, c);
-		/*Secretary scheduler= new Secretary(10,10,10,10,10,"05-05-23","17-05-23");
-		new InsertCourseGUI(scheduler, ES);*/
+		//new ScheduleExamGUI(ES, c);
+		
+		new InsertCourseGUI(S, ES);
 	}
 
 }

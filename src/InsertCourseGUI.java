@@ -1,9 +1,11 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,7 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
 
 public class InsertCourseGUI extends JFrame implements ActionListener{
 	
@@ -22,27 +27,29 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	private JButton confirmButton;
 	private Secretary secr;
 	private ExamScheduler ES;
+	private JScrollPane scrollPane;
+	private JList<String> list;
+	private DefaultListModel<String> listModel;
 	
 	public InsertCourseGUI(Secretary secr, ExamScheduler ES) {
-		//"C:\\Users\\ELENI\\Documents\\Exams-Scheduler-App-\\
+		
 		
 		SpringLayout springLayout = new SpringLayout();
 		this.getContentPane().setLayout(springLayout);
 		
 		JLabel insertLabel = new JLabel("Insert Courses");
-		springLayout.putConstraint(SpringLayout.WEST, insertLabel, 73, SpringLayout.WEST, this.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, insertLabel, -527, SpringLayout.SOUTH, this.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, insertLabel, -77, SpringLayout.EAST, this.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, insertLabel, -77, SpringLayout.EAST, getContentPane());
 		insertLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		insertLabel.setFont(new Font("Arial", Font.BOLD, 25));
 		this.getContentPane().add(insertLabel);
 		
 		JPanel InsertPanel = new JPanel();
-		springLayout.putConstraint(SpringLayout.EAST, InsertPanel, 521, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, InsertPanel, 61, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, InsertPanel, 73, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, InsertPanel, -65, SpringLayout.EAST, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, insertLabel, 0, SpringLayout.WEST, InsertPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, insertLabel, -6, SpringLayout.NORTH, InsertPanel);
 		InsertPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		springLayout.putConstraint(SpringLayout.NORTH, InsertPanel, 42, SpringLayout.NORTH, this.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, InsertPanel, -343, SpringLayout.SOUTH, this.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, InsertPanel, 73, SpringLayout.WEST, this.getContentPane());
 		this.getContentPane().add(InsertPanel);
 		SpringLayout sl_InsertPanel = new SpringLayout();
 		InsertPanel.setLayout(sl_InsertPanel);
@@ -84,17 +91,40 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		numtextField.setColumns(10);
 		
 		insertButton = new JButton("Insert");
-		sl_InsertPanel.putConstraint(SpringLayout.NORTH, insertButton, 27, SpringLayout.SOUTH, numtextField);
-		sl_InsertPanel.putConstraint(SpringLayout.WEST, insertButton, 172, SpringLayout.WEST, InsertPanel);
+		insertButton.setForeground(new Color(41, 41, 41));
+		sl_InsertPanel.putConstraint(SpringLayout.NORTH, insertButton, 26, SpringLayout.SOUTH, numtextField);
+		sl_InsertPanel.putConstraint(SpringLayout.WEST, insertButton, 163, SpringLayout.WEST, InsertPanel);
+		sl_InsertPanel.putConstraint(SpringLayout.SOUTH, insertButton, -29, SpringLayout.SOUTH, InsertPanel);
+		sl_InsertPanel.putConstraint(SpringLayout.EAST, insertButton, 272, SpringLayout.WEST, InsertPanel);
 		insertButton.setFont(new Font("Arial", Font.PLAIN, 15));
 		InsertPanel.add(insertButton);
 		
 		confirmButton = new JButton("Confirm");
-		springLayout.putConstraint(SpringLayout.NORTH, confirmButton, 25, SpringLayout.SOUTH, InsertPanel);
-		springLayout.putConstraint(SpringLayout.WEST, confirmButton, 239, SpringLayout.WEST, this.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, InsertPanel, -248, SpringLayout.NORTH, confirmButton);
+		springLayout.putConstraint(SpringLayout.NORTH, confirmButton, 487, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, confirmButton, 236, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, confirmButton, -29, SpringLayout.SOUTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, confirmButton, -232, SpringLayout.EAST, getContentPane());
 		confirmButton.setFont(new Font("Arial", Font.PLAIN, 15));
 		confirmButton.addActionListener(this);
 		this.getContentPane().add(confirmButton);
+		
+		scrollPane = new JScrollPane();
+		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 36, SpringLayout.SOUTH, InsertPanel);
+		springLayout.putConstraint(SpringLayout.WEST, scrollPane, -502, SpringLayout.EAST, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 189, SpringLayout.SOUTH, InsertPanel);
+		springLayout.putConstraint(SpringLayout.EAST, scrollPane, -77, SpringLayout.EAST, getContentPane());
+		getContentPane().add(scrollPane);
+		
+		
+		listModel = new DefaultListModel<String>();
+	    listModel.addElement("12121");
+	    listModel.addElement("112112");
+	  
+	    list = new JList<String>(listModel);
+		scrollPane.setViewportView(list);
+		
+		
 		
 		this.setAlwaysOnTop(true);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
@@ -108,11 +138,23 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()== insertButton) {
-			String numOfStudents = numtextField.getText();
-			String profs = proftextField.getText();
-			Course c = new Course(coursetextField.getText(),Integer.parseInt(numOfStudents));
+			
+			String courseName = coursetextField.getText().trim();
+			String profs = proftextField.getText().trim();
+			String numOfStudents = numtextField.getText().trim();
+			
+			
+			Course c = new Course(courseName,Integer.parseInt(numOfStudents));
 			this.addProfsToCourse(c, profs);
 			secr.addCourse(c);
+			
+			
+			listModel.addElement(courseName + "  |  " + profs + "  |  " + numOfStudents);
+			
+			coursetextField.setText("");
+			proftextField.setText("");
+			numtextField.setText("");
+			
 			
 		}else {
 			this.dispose();
@@ -120,7 +162,7 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		}
 		
 	}
-
+	
 	public void addProfsToCourse(Course c, String profsInput) {
 		String[] names = profsInput.split(",");
 		for(String s : names) {

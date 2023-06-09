@@ -70,19 +70,26 @@ public class LoginGUI extends JFrame implements ActionListener{
 					if(roomsGUI!=null) {
 						roomsGUI.setVisible(true);
 					}else {
+						firstLogin=false;
 						new RoomsGUI();//new InsertCourseGUI(null);
 					}
 					
 				}else {
-					new SecretaryGUI2();
+					new SecretaryGUI2(null);//!!!!!!!!!!!!!!
 					
 				}
 			
 			}else if(inputPass.equals("pR0!3$$oR")) {
-				this.dispose();
-				new SelectCourseGUI(null);
+				if(!firstLogin) {
+					this.dispose();
+					new SelectCourseGUI(null);
+				}else {
+					JOptionPane.showMessageDialog(null,"Login failed - Secretary must login first","Error",JOptionPane.ERROR_MESSAGE);
+					passwordField.setText("");
+				}
+				
 			}else {//Wrong Password
-				JOptionPane.showMessageDialog(null,"Wrong Password! Please try again.","ERROR",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Wrong Password! Please try again.","Error",JOptionPane.ERROR_MESSAGE);
 				passwordField.setText("");
 			}
 			

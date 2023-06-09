@@ -223,6 +223,7 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				
 				Secretary scheduler= new Secretary(period,audcap,ampcap,audnum,ampnum,startDate,endDate);
 				ExamScheduler ES = new ExamScheduler(period,audcap,ampcap,audnum,ampnum,startDate,endDate);
+				
 				new InsertCourseGUI(scheduler,ES);
 				this.dispose();
 			}else {

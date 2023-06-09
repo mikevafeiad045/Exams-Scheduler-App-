@@ -38,17 +38,15 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 	
 	
 	public ScheduleExamGUI(ExamScheduler ES, Course selectedCourse) {
-		//-------------------------/!\
-		/*
+		
 		ArrayList<Room> rooms = ES.getRoomList();
 		ArrayList<String> roomCodes = null;
-		int i=0;
+		
 		for(Room r : rooms) {
 			String roomName = r.getRoomName();
 			roomCodes.add(roomName);
-			i++;
-			if(i>5) 
-		}*/
+		
+		}
 		
 		this.setAlwaysOnTop(true);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
@@ -106,17 +104,26 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 		JList<String> suggestedRoomsList = new JList<String>();
 		sl_panel.putConstraint(SpringLayout.SOUTH, suggestedRoomsList, -61, SpringLayout.SOUTH, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, suggestedRoomsList, -97, SpringLayout.EAST, panel);
-		suggestedRoomsList.setModel(new AbstractListModel() {
-			
+		suggestedRoomsList.setModel(new AbstractListModel<String>() {
+			//--------/!\
 			String[] values = new String[] {"1", "2", "3", "4", "5"};
 			public int getSize() {
 				return values.length;
-				//return roomCodes.size();
+				
 			}
-			public Object getElementAt(int index) {
+			public String getElementAt(int index) {
 				return values[index];
-				//return roomCodes.get(index);
+				
 			}
+			/* !!!!!!!!!!!!!!!!
+			public int getSize() {
+				//return values.length;
+				return roomCodes.size();
+			}
+			public String getElementAt(int index) {
+				//return values[index];
+				return roomCodes.get(index);
+			}*/
 		});
 		suggestedRoomsList.setFont(new Font("Arial", Font.PLAIN, 13));
 		suggestedRoomsList.setBackground(UIManager.getColor("InternalFrame.resizeIconHighlight"));
@@ -166,6 +173,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 		this.getContentPane().add(btnNewButton);
 		
 		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		
 	}
@@ -206,7 +214,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener {
 							break;
 					}
 					
-					
+				
 					
 				
 			}
