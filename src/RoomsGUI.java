@@ -57,8 +57,12 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	
 	public RoomsGUI(/*ExamScheduler ES*/) {
 		
-		roomsPanel= new JPanel();// Creating the panel that contains the components 
-		roomsPanel.setLayout(new FlowLayout(FlowLayout.CENTER,1000,15));
+		roomsPanel= new JPanel();
+		roomsPanel.setLayout(new FlowLayout(FlowLayout.CENTER,1050,15));
+		
+		JLabel newExamPeriod = new JLabel("Create new Exam Period");
+		newExamPeriod.setFont(new Font("Arial", Font.PLAIN, 27));
+		roomsPanel.add(newExamPeriod);
 		
 		
 		//Rooms Label Settings and Styling
@@ -167,16 +171,17 @@ public class RoomsGUI extends JFrame implements ActionListener {
 		periodPanel.add(periodBox);
 		
 		button = new JButton("Confirm");
+		button.setBackground(new Color(153, 255, 153));
 		button.setFont(new Font("Arial", Font.PLAIN, 20));
 		button.addActionListener(this);
 		roomsPanel.add(button);
 		
 		getContentPane().add(roomsPanel);
 		
-		addWindowListener(new ProgramTerminated(ES));
+		//addWindowListener(new ProgramTerminated(ES));
 		
-		this.setSize(800,800);
-		this.setTitle("University Rooms");
+		this.setSize(700,800);
+		this.setTitle("Create new Exam Period");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		ImageIcon logo= new ImageIcon("logo.png");

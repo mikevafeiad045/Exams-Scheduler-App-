@@ -46,6 +46,7 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		JPanel InsertPanel = new JPanel();
 		springLayout.putConstraint(SpringLayout.NORTH, InsertPanel, 61, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, InsertPanel, 73, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, InsertPanel, -324, SpringLayout.SOUTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, InsertPanel, -65, SpringLayout.EAST, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, insertLabel, 0, SpringLayout.WEST, InsertPanel);
 		springLayout.putConstraint(SpringLayout.SOUTH, insertLabel, -6, SpringLayout.NORTH, InsertPanel);
@@ -91,6 +92,7 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		numtextField.setColumns(10);
 		
 		insertButton = new JButton("Insert");
+		insertButton.setBackground(new Color(128, 255, 255));
 		insertButton.setForeground(new Color(41, 41, 41));
 		sl_InsertPanel.putConstraint(SpringLayout.NORTH, insertButton, 26, SpringLayout.SOUTH, numtextField);
 		sl_InsertPanel.putConstraint(SpringLayout.WEST, insertButton, 163, SpringLayout.WEST, InsertPanel);
@@ -99,18 +101,19 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		insertButton.setFont(new Font("Arial", Font.PLAIN, 15));
 		InsertPanel.add(insertButton);
 		
-		confirmButton = new JButton("Confirm");
-		springLayout.putConstraint(SpringLayout.SOUTH, InsertPanel, -248, SpringLayout.NORTH, confirmButton);
-		springLayout.putConstraint(SpringLayout.NORTH, confirmButton, 487, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, confirmButton, 236, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, confirmButton, -29, SpringLayout.SOUTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, confirmButton, -232, SpringLayout.EAST, getContentPane());
+		confirmButton = new JButton("Save & Exit");
+		confirmButton.setBackground(new Color(253, 253, 253));
+		confirmButton.setForeground(new Color(0, 215, 11));
+		springLayout.putConstraint(SpringLayout.WEST, confirmButton, 237, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, confirmButton, -69, SpringLayout.SOUTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, confirmButton, -231, SpringLayout.EAST, getContentPane());
 		confirmButton.setFont(new Font("Arial", Font.PLAIN, 15));
 		confirmButton.addActionListener(this);
 		this.getContentPane().add(confirmButton);
 		
 		scrollPane = new JScrollPane();
-		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 36, SpringLayout.SOUTH, InsertPanel);
+		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 275, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, confirmButton, 19, SpringLayout.SOUTH, scrollPane);
 		springLayout.putConstraint(SpringLayout.WEST, scrollPane, -502, SpringLayout.EAST, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 189, SpringLayout.SOUTH, InsertPanel);
 		springLayout.putConstraint(SpringLayout.EAST, scrollPane, -77, SpringLayout.EAST, getContentPane());
@@ -123,6 +126,15 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	  
 	    list = new JList<String>(listModel);
 		scrollPane.setViewportView(list);
+		
+		JButton discardButton = new JButton("Discard all & Exit ");
+		springLayout.putConstraint(SpringLayout.NORTH, discardButton, -58, SpringLayout.SOUTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, discardButton, -23, SpringLayout.SOUTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, discardButton, -25, SpringLayout.EAST, getContentPane());
+		discardButton.setForeground(new Color(255, 255, 255));
+		discardButton.setBackground(new Color(255, 77, 81));
+		discardButton.addActionListener(this);
+		getContentPane().add(discardButton);
 		
 		addWindowListener(new ProgramTerminated(ES));
 		
@@ -156,9 +168,11 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 			numtextField.setText("");
 			
 			
-		}else {
+		}else if(e.getSource()== confirmButton) {
 			this.dispose();
 			new LoginGUI(ES);
+		}else {
+			System.exit(0);
 		}
 		
 	}

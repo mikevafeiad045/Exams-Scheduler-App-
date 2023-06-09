@@ -16,12 +16,13 @@ public class LoginGUI extends JFrame implements ActionListener{
 	private static JButton loginButton;
 	private static JPasswordField passwordField;
 	private static JLabel passwordLabel;
-	private static boolean firstLogin = true;
+	private static boolean firstLogin;
 	ExamScheduler es;
 	
 	public LoginGUI(ExamScheduler ES) {
 		
 		es=ES;
+		this.firstLogin = true;
 		
 		// Label Settings and Styling
 		ImageIcon logo1= new ImageIcon("logo1.png");//Creating Icon
@@ -43,7 +44,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 		loginButton.addActionListener(this);//Connecting the button with the action
 		this.add(loginButton);
 		
-		addWindowListener(new ProgramTerminated(ES));
+		//addWindowListener(new ProgramTerminated(ES));
 		
 		
 		this.setLayout(new FlowLayout(FlowLayout.CENTER,1000,50));
@@ -76,7 +77,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 						roomsGUI.setVisible(true);
 					}else {
 						firstLogin=false;
-						new RoomsGUI();//new InsertCourseGUI(null);
+						new RoomsGUI();
 					}
 					
 				}else {
@@ -87,13 +88,13 @@ public class LoginGUI extends JFrame implements ActionListener{
 				}
 			
 			}else if(inputPass.equals("pR0!3$$oR")) {
-				if(!firstLogin) {
+				//if(!firstLogin) {
 					this.dispose();
 					new SelectCourseGUI(null);
-				}else {
+				/*}else {
 					JOptionPane.showMessageDialog(null,"Login failed - Secretary must login first","Error",JOptionPane.ERROR_MESSAGE);
 					passwordField.setText("");
-				}
+				}*/
 				
 			}else {//Wrong Password
 				JOptionPane.showMessageDialog(null,"Wrong Password! Please try again.","Error",JOptionPane.ERROR_MESSAGE);

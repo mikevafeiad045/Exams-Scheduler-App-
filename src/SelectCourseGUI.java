@@ -10,6 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
+import java.awt.Color;
 
 public class SelectCourseGUI extends JFrame implements ActionListener {
 	
@@ -28,15 +29,19 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 		this.getContentPane().setLayout(springLayout);
 		
 		JLabel selectLabel = new JLabel("Select Course");
-		springLayout.putConstraint(SpringLayout.NORTH, selectLabel, 37, SpringLayout.NORTH, this.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, selectLabel, 126, SpringLayout.WEST, this.getContentPane());
-		selectLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		springLayout.putConstraint(SpringLayout.WEST, selectLabel, 116, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, selectLabel, -108, SpringLayout.EAST, getContentPane());
+		selectLabel.setFont(new Font("Arial", Font.PLAIN, 24));
 		this.getContentPane().add(selectLabel);
 		
 		courseBox = new JComboBox<String>();
+		courseBox.setBackground(new Color(229, 229, 229));
+		springLayout.putConstraint(SpringLayout.SOUTH, selectLabel, -37, SpringLayout.NORTH, courseBox);
+		springLayout.putConstraint(SpringLayout.EAST, courseBox, -119, SpringLayout.EAST, getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, courseBox, -246, SpringLayout.SOUTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, courseBox, 0, SpringLayout.WEST, selectLabel);
+		springLayout.putConstraint(SpringLayout.SOUTH, courseBox, -210, SpringLayout.SOUTH, getContentPane());
 		courseBox.setFont(new Font("Arial", Font.PLAIN, 15));
-		springLayout.putConstraint(SpringLayout.NORTH, courseBox, 29, SpringLayout.SOUTH, selectLabel);
-		springLayout.putConstraint(SpringLayout.EAST, courseBox, 0, SpringLayout.EAST, selectLabel);
 		this.getContentPane().add(courseBox);
 		
 		for (Course c : courses) {
@@ -44,9 +49,10 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
         }
 		
 		btnConfirm = new JButton("Confirm");
+		springLayout.putConstraint(SpringLayout.NORTH, btnConfirm, 26, SpringLayout.SOUTH, courseBox);
+		springLayout.putConstraint(SpringLayout.WEST, btnConfirm, 147, SpringLayout.WEST, getContentPane());
+		btnConfirm.setBackground(new Color(141, 255, 113));
 		btnConfirm.setFont(new Font("Arial", Font.PLAIN, 15));
-		springLayout.putConstraint(SpringLayout.NORTH, btnConfirm, 31, SpringLayout.SOUTH, courseBox);
-		springLayout.putConstraint(SpringLayout.WEST, btnConfirm, 149, SpringLayout.WEST, this.getContentPane());
 		this.getContentPane().add(btnConfirm);
 		
 		addWindowListener(new ProgramTerminated(ES));

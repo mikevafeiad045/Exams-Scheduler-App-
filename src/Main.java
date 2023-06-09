@@ -6,21 +6,24 @@ public class Main {
 		
 		
 		ExamScheduler ES = new ExamScheduler(10,10,10,10,10,"05-05-23","17-05-23");
-		
-		
+		Secretary S= new Secretary(10,10,10,10,10,"05-05-23","17-05-23");
 		Course c = new Course("Algorithms",100);
 		
-		//new ScheduleExamGUI(ES,c);
-		Secretary S= new Secretary(10,10,10,10,10,"05-05-23","17-05-23");
-		//new RoomsGUI(ES);
-		//new SecretaryGUI2(S, ES);
-		
-		new LoginGUI(ES);
-		new ScheduleExamGUI(ES, c);
-		
+						//Secretary GUIs for testing...
+						//Initial
+		//new LoginGUI(ES);
+		//new RoomsGUI(/*ES*/);
 		//new InsertCourseGUI(S, ES);
+						//2nd LOGIN
+		//new SecretaryGUI2(S, ES);
 		//new CalendarGUI(ES);
+						
+						//Prof GUIs
+		//new ScheduleExamGUI(ES,c);
+		
+		//new SelectCourseGUI(ES);		
 
+		//new ScheduleExamGUI(ES, c);
 	}
 	
 
