@@ -1,11 +1,10 @@
-//import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.DefaultListModel;
+/*import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,6 +16,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;*/
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public class InsertCourseGUI extends JFrame implements ActionListener{
 	
@@ -25,17 +28,14 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	private JTextField numtextField;
 	private JButton insertButton;
 	private JButton confirmButton;
-	//private Secretary secr;
 	private ExamScheduler ES;
 	private JScrollPane scrollPane;
 	private JList<String> list;
 	private DefaultListModel<String> listModel;
 	
-	public InsertCourseGUI(/*Secretary secr, ExamScheduler ES*/) {
+	public InsertCourseGUI() {
 		
-		ES = ExamScheduler.getInstance();
-		//secr = Secretary.getInstance();
-		
+		ES = ExamScheduler.getInstance();	
 		
 		SpringLayout springLayout = new SpringLayout();
 		this.getContentPane().setLayout(springLayout);
@@ -104,31 +104,38 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		insertButton.setFont(new Font("Arial", Font.PLAIN, 15));
 		InsertPanel.add(insertButton);
 		
+		insertButton.addActionListener(this);
+		
 		confirmButton = new JButton("Save & Exit");
+		springLayout.putConstraint(SpringLayout.NORTH, confirmButton, 208, SpringLayout.SOUTH, InsertPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, confirmButton, -69, SpringLayout.SOUTH, getContentPane());
 		confirmButton.setBackground(new Color(253, 253, 253));
 		confirmButton.setForeground(new Color(0, 215, 11));
 		springLayout.putConstraint(SpringLayout.WEST, confirmButton, 237, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, confirmButton, -69, SpringLayout.SOUTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, confirmButton, -231, SpringLayout.EAST, getContentPane());
 		confirmButton.setFont(new Font("Arial", Font.PLAIN, 15));
 		confirmButton.addActionListener(this);
 		this.getContentPane().add(confirmButton);
 		
 		scrollPane = new JScrollPane();
-		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 275, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.NORTH, confirmButton, 19, SpringLayout.SOUTH, scrollPane);
+		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 263, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, scrollPane, 0, SpringLayout.EAST, insertLabel);
 		springLayout.putConstraint(SpringLayout.WEST, scrollPane, -502, SpringLayout.EAST, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 189, SpringLayout.SOUTH, InsertPanel);
-		springLayout.putConstraint(SpringLayout.EAST, scrollPane, -77, SpringLayout.EAST, getContentPane());
 		getContentPane().add(scrollPane);
 		
-		
-		listModel = new DefaultListModel<String>();
-	    listModel.addElement("12121");
-	    listModel.addElement("112112");
-	  
-	    list = new JList<String>(listModel);
+		list = new JList<>();
 		scrollPane.setViewportView(list);
+		
+		listModel = new DefaultListModel<>();	
+		list.setModel(listModel);
+	   
+	    //list.setBounds(0, 0, 484, 461);
+       // list.setFont(list.getFont().deriveFont(14.0f));
+		list.setFont(new Font("Arial", Font.PLAIN, 16));
+        list.setFixedCellHeight(35);
+        list.setVisible(true);
+		
 		
 		JButton discardButton = new JButton("Discard all & Exit ");
 		springLayout.putConstraint(SpringLayout.NORTH, discardButton, -58, SpringLayout.SOUTH, getContentPane());
@@ -154,21 +161,25 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()== insertButton) {
 			
-			String courseName = coursetextField.getText().trim();
-			String profs = proftextField.getText().trim();
-			String numOfStudents = numtextField.getText().trim();
+			if(this.checkTextFields()) {
+				String courseName = coursetextField.getText().trim();
+				String profs = proftextField.getText().trim();
+				String numOfStudents = numtextField.getText().trim();
+				
+				Course c = new Course(courseName,Integer.parseInt(numOfStudents));
+				c.addProfs(profs);
+				ES.addCourse(c);
 			
+				listModel.addElement(courseName + "  |  " + profs + "  |  " + numOfStudents);
+				
+				coursetextField.setText("");
+				proftextField.setText("");
+				numtextField.setText("");
+			}else {
+				JOptionPane.showMessageDialog(this,"All the fields are Required!");
+				
+			}
 			
-			Course c = new Course(courseName,Integer.parseInt(numOfStudents));
-			this.addProfsToCourse(c, profs);
-			ES.addCourse(c);
-			
-			
-			listModel.addElement(courseName + "  |  " + profs + "  |  " + numOfStudents);
-			
-			coursetextField.setText("");
-			proftextField.setText("");
-			numtextField.setText("");
 			
 			
 		}else if(e.getSource()== confirmButton) {
@@ -181,11 +192,18 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		
 	}
 	
-	public void addProfsToCourse(Course c, String profsInput) {
-		String[] names = profsInput.split(",");
-		for(String s : names) {
-			s.trim();
-			c.addProf(s);
+	public boolean checkTextFields() {
+		
+		if(coursetextField.getText().equals("") 
+			|| proftextField.getText().equals("")
+			|| numtextField.getText().equals("")
+			) 
+		{
+				return false;
+		
+		}else {
+
+				return true;
 		}
 	}
 }

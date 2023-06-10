@@ -94,16 +94,14 @@ public class LoginGUI extends JFrame implements ActionListener{
 					
 				}else {
 					JOptionPane.showMessageDialog(null,"Login failed - Secretary must login first","Error",JOptionPane.ERROR_MESSAGE);
-					passwordField.setText("");
 				}
 				
 			}else {//Wrong Password
 				JOptionPane.showMessageDialog(null,"Wrong Password! Please try again.","Error",JOptionPane.ERROR_MESSAGE);
-				passwordField.setText("");
 			}
 			
 		}
-		
+		passwordField.setText("");
 	}
 	
 }

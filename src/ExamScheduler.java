@@ -9,37 +9,32 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 
-public class ExamScheduler /*extends Secretary*/{
+public class ExamScheduler{
 	
-	private static ExamScheduler instance;
+	 private static ExamScheduler instance;
 	
-	 static ArrayList<Course> courseList;
-	 static ArrayList<Room> roomList;
-	 static int period;
-	 static int capacityAud;
-	 static int capacityAmph;
-	 static int numberOfAud;
-	 static int numberOfAmph;
-	 static String startDate;
-	 static String endDate;
+	 static final int EXAM_ZONES = 6;
+	 private static ArrayList<Course> courseList;
+	 private static ArrayList<Room> roomList;
+	 private static int period;
+	 private static int capacityAud;
+	 private static int capacityAmph;
+	 private static int numberOfAud;
+	 private static int numberOfAmph;
+	 private static String startDate;
+	 private static String endDate;
+	 private String examHours[] =new String[] {"9:00-11:00", "11:00-13:00", "13:00-15:00", "15:00-17:00", "17:00-19:00", "19:00-21:00"};
+	 private HashMap<String, Integer> hoursMap;
 	
-	static final int EXAM_ZONES = 6;
-	private ArrayList<ExamDate> dates = new ArrayList<>();
+	 private ArrayList<ExamDate> dates = new ArrayList<>();
 
-	/*
-	 public ExamScheduler(int period, int capacityAud, int capacityAmph, int numberOfAud, 
-			 int numberOfAmph, String startDate, String endDate) {
-		 
-		super(period, capacityAud, capacityAmph, numberOfAud, numberOfAmph,startDate,endDate);
-	}
-	 */
 	 private ExamScheduler() {
-		/*super();*/
-		 
 		 courseList = new ArrayList<>();
 		 roomList = new ArrayList<>();
+		 hoursMap = this.createHoursMap();
 	 }
 	 
 	 public static ExamScheduler getInstance() {
@@ -70,40 +65,22 @@ public class ExamScheduler /*extends Secretary*/{
 	}
 	
 	
-	public int [] SplitDate(String outputDate) {
-		//Converts input date from date chooser to simple date format
-		//Returns array of size 3, containing the day, month and year int values
+private HashMap<String, Integer> createHoursMap() {
 		
-		//SimpleDateFormat inputFormat = new SimpleDateFormat ("EEE MMMM dd HH:mm:ss zzzz yyyy");
-		//SimpleDateFormat inputFormat = new SimpleDateFormat ("MMM dd, yyyy");
-		//SimpleDateFormat outputFormat = new SimpleDateFormat ("dd-MM-yy");
-		
-		int parts[] = new int[3];
-		
-		 try {
-	            
-	            String[] temp = outputDate.split("-");
-	            //Convert parts (string) to int
-	            parts[0] = Integer.parseInt(temp[0]);
-	            parts[1] = Integer.parseInt(temp[1]);
-	            parts[2] = Integer.parseInt(temp[2]);
-	            
-	            
-	     } catch (Exception e) {
-	            e.printStackTrace();
-	            System.exit(1);
-	     }
-		 
-		 return parts;
-		 
-	}
+        HashMap<String, Integer> map = new HashMap<>();
+        int increment=0;
+        for (String s : examHours) {
+            map.put(s, increment);
+            increment++;
+        }
+        return map;
+ }
 	
 	public String ConvertDate(String inputDate) {
 		//Converts input date from date chooser to simple date format
 		//Returns array of size 3, containing the day, month and year int values
 		
-		//SimpleDateFormat inputFormat = new SimpleDateFormat ("EEE MMMM dd HH:mm:ss zzzz yyyy");
-		SimpleDateFormat inputFormat = new SimpleDateFormat ("MMM d, y");
+		SimpleDateFormat inputFormat = new SimpleDateFormat ("EEE MMMM dd HH:mm:ss zzzz yyyy");
 		SimpleDateFormat outputFormat = new SimpleDateFormat ("dd-MM-yy");
 		
 		Date date=null;
@@ -117,11 +94,6 @@ public class ExamScheduler /*extends Secretary*/{
 	    
 	    return outputDate; 
     
-	}
-
-
-	public ArrayList<ExamDate> getDates() {
-		return dates;
 	}
 	
 
@@ -143,6 +115,10 @@ public class ExamScheduler /*extends Secretary*/{
 			i.printStackTrace();
 		} 
 	}
+	
+	
+	
+	
 	
 	public void openAvailabilityFile()
 	{
@@ -373,4 +349,22 @@ public class ExamScheduler /*extends Secretary*/{
 	public void setNumberOfAmph(int numberOfAmph1) {
 		numberOfAmph = numberOfAmph1;
 	}
+
+	public HashMap<String, Integer> getHoursMap() {
+		return hoursMap;
+	}
+
+	public String[] getExamHours() {
+		return examHours;
+	}
+
+	public void setDates(ArrayList<ExamDate> dates) {
+		this.dates = dates;
+	}
+	
+	public ArrayList<ExamDate> getDates(){
+		return dates;
+	}
+	
+	
 }

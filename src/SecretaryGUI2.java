@@ -50,15 +50,12 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		for (int i = 0; i < sizeOfList; i++) {
 		    listA[i] = tempList.get(i).getCourseName();
 		}
-
-		
-
 		
 		courseBoxList = new JComboBox<String>();
 		courseBoxList.addItem("-Courses-");
 		courseBoxList.setSelectedItem("-Courses-");
-		courseBoxList.setToolTipText("");
-		courseBoxList.setForeground(new Color(255, 255, 255));
+		//courseBoxList.setToolTipText("");
+		courseBoxList.setForeground(new Color(0, 0, 0));
 		courseBoxList.setFont(new Font("Arial", Font.PLAIN, 12));
 		courseBoxList.setBackground(new Color(255, 255, 255));
 		courseBoxList.setMaximumRowCount(30);
@@ -117,9 +114,11 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		
 			if(e.getSource()==viewProgButton) {
 				new CalendarGUI();
+				
 			}else if(e.getSource()==logoutButton) {
-				LoginGUI.getInstance();
+				LoginGUI.getInstance().setVisible(true);;
 				this.dispose(); 
+				
 			}
 			
 		}
@@ -127,8 +126,6 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		
 		 
 		public void mouseClicked(MouseEvent e) {
-	            // Mouse click event handling
-			
 			
 			ES.saveToRoomsFile();
 			ES.saveToCourseFile();
@@ -136,12 +133,11 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 			 //path of the file to delete
 	        String filePath = "dates.ser";
 
-	        // Create a Path object with the specified file path
+	        // Creating a Path object with the specified file path
 	        Path pathToDelete = Paths.get(filePath);
 
 
 	        try {
-	            // Delete the file using the delete() method from Files class
 	            Files.delete(pathToDelete);
 	            System.out.println("File deleted successfully.");
 	        } catch (IOException e1) {

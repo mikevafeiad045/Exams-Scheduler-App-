@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -217,23 +216,25 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				int ampcap = Integer.parseInt(ampcapText.getText());
 				
 				//Getting start date
-				//startdateChooser.getDate();
-				String selectedDate1 = startdateChooser.getDateFormatString();
-				String startDate = ES.ConvertDate(selectedDate1);
+				
+				String tempStart = startdateChooser.getDate().toString();
+				//System.out.println("The start date with toString format is : " + tempStart);
+				String convertedStartDate = ES.ConvertDate(tempStart);
+				//System.out.println("The converted start date is: " + convertedStartDate);
 				
 				//Getting end date
-				//finaldateChooser.getDate();
-				String selectedDate2 = finaldateChooser.getDateFormatString();
-				String endDate = ES.ConvertDate(selectedDate2);
-				
+				String tempFinal = finaldateChooser.getDate().toString();
+				//System.out.println("The end date direct with tostring format is : " + tempFinal);
+				String convertedFinalDate = ES.ConvertDate(tempFinal);
+				//System.out.println("The converted final date is: " + convertedFinalDate);
 				
 				ES.setPeriod(period);
 				ES.setNumberOfAud(audnum);
 				ES.setCapacityAud(audcap);
 				ES.setNumberOfAmph(ampnum);
 				ES.setCapacityAmph(ampcap);
-				ES.setStartDate(startDate);
-				ES.setEndDate(endDate);
+				ES.setStartDate(convertedStartDate);
+				ES.setEndDate(convertedFinalDate);
 				
 				
 				for(int i=0; i<ampnum; i++) {
@@ -262,15 +263,15 @@ public class RoomsGUI extends JFrame implements ActionListener {
 			|| audcapText.getText().equals("")
 			|| ampnumText.getText().equals("")
 			|| ampcapText.getText().equals("")
-			|| startdateChooser.getDateFormatString().equals("")
-			|| finaldateChooser.getDateFormatString().equals("")
+			|| startdateChooser.getDate()==null
+			|| finaldateChooser.getDate()==null
 			) 
 		{
 				return false;
 		
 		}else {
-				System.out.println(startdateChooser.getDateFormatString());
-				return(true);
+
+				return true;
 		}
 	}
 }

@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 public class Course implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2L;
 	private ArrayList<String> professorsList;
 	private ArrayList<Room> selectedRoomsList;
@@ -40,8 +37,13 @@ public class Course implements Serializable{
 	}
 	
 //Add objects to array lists methods
-	public void addProf(String name) {
-		professorsList.add(name);
+	public void addProfs(String profsInput) {
+		String[] names = profsInput.split(",");
+		
+		for(String s : names) {
+			s.trim();
+			professorsList.add(s);
+		}
 	}
 	
 	public void addSelectedRoom(Room R) {

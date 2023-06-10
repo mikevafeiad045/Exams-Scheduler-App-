@@ -14,19 +14,18 @@ public class Main {
 		
 						//Secretary GUIs for testing...
 						//Initial
-		//new LoginGUI(/*ES*/);
-		//new RoomsGUI(/*ES*/);
-		//new InsertCourseGUI(S, ES);
+		//new LoginGUI();
+		//new RoomsGUI();
+		//new InsertCourseGUI();
 						//2nd LOGIN
-		//new SecretaryGUI2(S, ES);
-		//new CalendarGUI(ES);
+		//new SecretaryGUI2();
+		//new CalendarGUI();
 						
 						//Prof GUIs
 		//new ScheduleExamGUI(c);
 		
-		//new SelectCourseGUI(ES);		
+		//new SelectCourseGUI();		
 
-		//new ScheduleExamGUI(ES, c);
 	}
 	
 

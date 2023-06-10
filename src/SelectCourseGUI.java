@@ -25,7 +25,7 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 	private static ExamScheduler ES;
 	
 	
-	private SelectCourseGUI(/*ExamScheduler ES*/) {
+	private SelectCourseGUI() {
 		
 		ES = ExamScheduler.getInstance();
 		
@@ -105,7 +105,7 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 		this.dispose();
 		} else {
 		
-			    JOptionPane.showMessageDialog(null,"Please select a course before proceeding","No course selected",JOptionPane.ERROR_MESSAGE);
+			    JOptionPane.showMessageDialog(this,"Please select a course before proceeding","No course selected",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

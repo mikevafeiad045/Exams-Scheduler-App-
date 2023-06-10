@@ -1,9 +1,7 @@
 import java.io.Serializable;
 
 public class ExamDate implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 3L;
 
 	String day;
@@ -59,6 +57,12 @@ public class ExamDate implements Serializable{
     public Course[] getZone() {
         return zones;
     }
+
+	public String getDay() {
+		return day;
+	}
+    
+    
 
 
 }
