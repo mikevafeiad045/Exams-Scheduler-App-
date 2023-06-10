@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -20,9 +21,9 @@ import com.toedter.calendar.JDateChooser;
 
 public class RoomsGUI extends JFrame implements ActionListener {
 	
-	private static boolean instance=true;
+	private static RoomsGUI instance;
 	
-	private static ExamScheduler scheduler;
+	//private static ExamScheduler scheduler;
 	
 	private static JPanel roomsPanel;
 	private static JLabel roomsLabel;
@@ -55,7 +56,9 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	private ExamScheduler ES;
 	
 	
-	public RoomsGUI(/*ExamScheduler ES*/) {
+	private RoomsGUI() {
+		ES = ExamScheduler.getInstance();
+		
 		
 		roomsPanel= new JPanel();
 		roomsPanel.setLayout(new FlowLayout(FlowLayout.CENTER,1050,15));
@@ -193,13 +196,10 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	
 	
 	public static RoomsGUI getInstance() {
-		if(instance) {
-			RoomsGUI roomsGUI= new RoomsGUI();
-			instance=false;
-			return roomsGUI;
+		if(instance == null) {
+			instance = new RoomsGUI();
 		}
-		return null;
-		
+		return instance;
 	}
 	
 	
@@ -217,32 +217,36 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				int ampcap = Integer.parseInt(ampcapText.getText());
 				
 				//Getting start date
-				startdateChooser.getDate();
-				String selectedDate1 = startdateChooser.getDateFormatString();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				String startDate =ES.ConvertDate(selectedDate1);
+				//startdateChooser.getDate();
+				String selectedDate1 = startdateChooser.getDateFormatString();
+				String startDate = ES.ConvertDate(selectedDate1);
 				
 				//Getting end date
-				finaldateChooser.getDate();
-				String selectedDate2 = startdateChooser.getDateFormatString();
+				//finaldateChooser.getDate();
+				String selectedDate2 = finaldateChooser.getDateFormatString();
 				String endDate = ES.ConvertDate(selectedDate2);
 				
-				Secretary S= new Secretary(period,audcap,ampcap,audnum,ampnum,startDate,endDate);
-				ExamScheduler ES = new ExamScheduler(period,audcap,ampcap,audnum,ampnum,startDate,endDate);
+				
+				ES.setPeriod(period);
+				ES.setNumberOfAud(audnum);
+				ES.setCapacityAud(audcap);
+				ES.setNumberOfAmph(ampnum);
+				ES.setCapacityAmph(ampcap);
+				ES.setStartDate(startDate);
+				ES.setEndDate(endDate);
+				
 				
 				for(int i=0; i<ampnum; i++) {
-					
-					Room room = new Room("AMP"+(i+1),ampcap);
-					S.addRoom(room);
+					Room room = new Room("AMP"+String.valueOf(i+1),ampcap);
+					ES.addRoom(room);
 				}
 				
 				for(int i=0; i<audnum; i++) {
-					
-					Room room = new Room("AUD"+(i+1),audcap);
-					S.addRoom(room);
+					Room room = new Room("AUD"+String.valueOf(i+1),audcap);
+					ES.addRoom(room);
 				}
 				
-				
-				new InsertCourseGUI(S,ES);
+				new InsertCourseGUI();
 				this.dispose();
 			}else {
 				JOptionPane.showMessageDialog(null,"All the fields are Required!");

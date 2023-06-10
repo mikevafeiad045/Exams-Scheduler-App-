@@ -1,4 +1,4 @@
-import java.awt.BorderLayout;
+//import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+//import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -25,13 +25,16 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	private JTextField numtextField;
 	private JButton insertButton;
 	private JButton confirmButton;
-	private Secretary secr;
+	//private Secretary secr;
 	private ExamScheduler ES;
 	private JScrollPane scrollPane;
 	private JList<String> list;
 	private DefaultListModel<String> listModel;
 	
-	public InsertCourseGUI(Secretary secr, ExamScheduler ES) {
+	public InsertCourseGUI(/*Secretary secr, ExamScheduler ES*/) {
+		
+		ES = ExamScheduler.getInstance();
+		//secr = Secretary.getInstance();
 		
 		
 		SpringLayout springLayout = new SpringLayout();
@@ -136,7 +139,7 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		discardButton.addActionListener(this);
 		getContentPane().add(discardButton);
 		
-		addWindowListener(new ProgramTerminated(ES));
+		addWindowListener(new ProgramTerminated());
 		
 		this.setAlwaysOnTop(true);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
@@ -158,7 +161,7 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 			
 			Course c = new Course(courseName,Integer.parseInt(numOfStudents));
 			this.addProfsToCourse(c, profs);
-			secr.addCourse(c);
+			ES.addCourse(c);
 			
 			
 			listModel.addElement(courseName + "  |  " + profs + "  |  " + numOfStudents);
@@ -170,7 +173,8 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 			
 		}else if(e.getSource()== confirmButton) {
 			this.dispose();
-			new LoginGUI(ES);
+			LoginGUI.getInstance().setVisible(true);
+
 		}else {
 			System.exit(0);
 		}

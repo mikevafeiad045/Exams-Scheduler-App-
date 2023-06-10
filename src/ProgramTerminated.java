@@ -5,15 +5,17 @@ public class ProgramTerminated extends WindowAdapter{
 	
 	private ExamScheduler ES;
 	
-	public ProgramTerminated(ExamScheduler ES) {
+	public ProgramTerminated(/*ExamScheduler ES*/) {
 		
-		this.ES = ES;
+		ES = ExamScheduler.getInstance();
+		
+		//this.ES = ES;
 	}
 
 	public void windowClosing(WindowEvent e) {
-		ES.saveToAvailabilityFile(ES);
-		ES.saveToCourseFile(ES);
-		ES.saveToRoomsFile(ES);
+		ES.saveToAvailabilityFile();
+		ES.saveToCourseFile();
+		ES.saveToRoomsFile();
 		
 		System.exit(0);
 	}

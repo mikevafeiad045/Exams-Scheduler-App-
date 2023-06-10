@@ -13,16 +13,17 @@ import javax.swing.JPasswordField;
 
 public class LoginGUI extends JFrame implements ActionListener{
 	
+	private static LoginGUI instance;
+	
 	private static JButton loginButton;
 	private static JPasswordField passwordField;
 	private static JLabel passwordLabel;
 	private static boolean firstLogin;
-	ExamScheduler es;
 	
-	public LoginGUI(ExamScheduler ES) {
+	
+	private LoginGUI() {
 		
-		es=ES;
-		this.firstLogin = true;
+		firstLogin = true;
 		
 		// Label Settings and Styling
 		ImageIcon logo1= new ImageIcon("logo1.png");//Creating Icon
@@ -60,6 +61,13 @@ public class LoginGUI extends JFrame implements ActionListener{
 		this.setVisible(true);
 		
 	}
+	
+	public static LoginGUI getInstance() {
+        if (instance == null) {
+            instance = new LoginGUI();
+        }
+        return instance;
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -70,31 +78,24 @@ public class LoginGUI extends JFrame implements ActionListener{
 			if(inputPass.equals("$3cReT4rY")) {
 				this.dispose();
 				if(firstLogin){
-					
+					firstLogin=false;
 					RoomsGUI roomsGUI= RoomsGUI.getInstance();
-					
-					if(roomsGUI!=null) {
-						roomsGUI.setVisible(true);
-					}else {
-						firstLogin=false;
-						new RoomsGUI();
-					}
-					
+					roomsGUI.setVisible(true);
+				
 				}else {
 					
-					new SecretaryGUI2(null,null);//!!!!!!!!!!!!!!
-
-					
+					new SecretaryGUI2();
 				}
 			
 			}else if(inputPass.equals("pR0!3$$oR")) {
-				//if(!firstLogin) {
+				if(!firstLogin) {
 					this.dispose();
-					new SelectCourseGUI(null);
-				/*}else {
+					SelectCourseGUI.getInstance().setVisible(true);
+					
+				}else {
 					JOptionPane.showMessageDialog(null,"Login failed - Secretary must login first","Error",JOptionPane.ERROR_MESSAGE);
 					passwordField.setText("");
-				}*/
+				}
 				
 			}else {//Wrong Password
 				JOptionPane.showMessageDialog(null,"Wrong Password! Please try again.","Error",JOptionPane.ERROR_MESSAGE);

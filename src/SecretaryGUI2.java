@@ -1,6 +1,6 @@
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.FlowLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -8,13 +8,13 @@ import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.BoxLayout;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+
 import javax.swing.JComboBox;
 import java.awt.Font;
-import java.awt.Window;
+
 
 import javax.swing.JButton;
 
@@ -23,7 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.io.IOException;
-import java.lang.reflect.Array;
+
 
 
 public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListener{
@@ -35,23 +35,14 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 	JLabel resetLabel;
 
 	ExamScheduler ES;
-	Secretary S;
+	
 
-	public SecretaryGUI2(Secretary S, ExamScheduler ES) {
-		this.S = S;
-		this.ES = ES;
-		/*-----------/!\ Temporary
-		ArrayList<Course> tempList = S.getCourseList();
-		int sizeofList = tempList.size();
+	public SecretaryGUI2() {
 		
-		String listA[] = new String[sizeofList];
+		ES = ExamScheduler.getInstance();
 		
-		for(int i=0 ; i<=sizeofList; i++) {
-			listA[i] = tempList.get(i).getCourseName();
-		}*/
-		//-----------------------------/!\
-		
-		ArrayList<Course> tempList = S.getCourseList();
+
+		ArrayList<Course> tempList = ES.getCourseList();
 		int sizeOfList = tempList.size();
 
 		String[] listA = new String[sizeOfList];
@@ -111,7 +102,7 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		this.setIconImage(logo.getImage());
 		getContentPane().setLayout(null);
 		
-		addWindowListener(new ProgramTerminated(ES));
+		addWindowListener(new ProgramTerminated());
 		
 		this.setSize(453,350);
 		this.setTitle("Secretary options");
@@ -125,11 +116,12 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		public void actionPerformed(ActionEvent e) {
 		
 			if(e.getSource()==viewProgButton) {
-				new CalendarGUI(ES);
+				new CalendarGUI();
 			}else if(e.getSource()==logoutButton) {
-				new LoginGUI(ES);
+				LoginGUI.getInstance();
+				this.dispose(); 
 			}
-			this.dispose(); 
+			
 		}
 
 		
@@ -138,8 +130,8 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 	            // Mouse click event handling
 			
 			
-			ES.saveToRoomsFile(ES);
-			ES.saveToCourseFile(ES);
+			ES.saveToRoomsFile();
+			ES.saveToCourseFile();
 			
 			 //path of the file to delete
 	        String filePath = "dates.ser";
@@ -172,4 +164,3 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 	 }
 	
 
-//}

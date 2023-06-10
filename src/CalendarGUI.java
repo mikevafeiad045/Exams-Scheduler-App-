@@ -1,6 +1,6 @@
 import java.awt.BorderLayout;
 import java.util.ArrayList;
-import java.util.Map;
+
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -8,16 +8,22 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListModel;
+
 
 
 public class CalendarGUI extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DefaultListModel<String> model;
 	private ArrayList<ExamDate> exams =new ArrayList<>();
 	private JList<String> list;
+	private ExamScheduler ES;
 	
-	public CalendarGUI(ExamScheduler ES) {
+	public CalendarGUI(/*ExamScheduler ES*/) {
+		ES = ExamScheduler.getInstance();
 		
 		this.exams = ES.getDates();
 		
@@ -69,16 +75,16 @@ public class CalendarGUI extends JFrame{
 							
 							}
 						}
-					combinedElements = examDayElem+courseNameElem+sb.toString()+sb2.toString();
+					combinedElements = examDayElem + courseNameElem + sb.toString() + sb2.toString();
 					model.addElement(combinedElements);
 					}
 			}
 			
 		}
 		
-		addWindowListener(new ProgramTerminated(ES));
+		addWindowListener(new ProgramTerminated());
 		
-		ImageIcon logo= new ImageIcon("logo.png");
+		ImageIcon logo = new ImageIcon("logo.png");
 		this.setIconImage(logo.getImage());
 		
 		this.setSize(500,500);
@@ -89,8 +95,6 @@ public class CalendarGUI extends JFrame{
 		this.setVisible(true);
 	
 	}
-	
-	
 	
 }
 

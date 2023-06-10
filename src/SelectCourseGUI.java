@@ -9,21 +9,27 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SpringLayout;
+
+
 import java.awt.Color;
 
 public class SelectCourseGUI extends JFrame implements ActionListener {
 	
-	private JButton btnConfirm;
-	private JComboBox<String> courseBox;
-	private ArrayList<Course> courses;
-	private ExamScheduler ES;
+	private static SelectCourseGUI instance;
+	
+	private static JButton btnConfirm;
+	private static JComboBox<String> courseBox;
+	private static ArrayList<Course> courses;
+	private static ExamScheduler ES;
 	
 	
-	public SelectCourseGUI(ExamScheduler ES) {
+	private SelectCourseGUI(/*ExamScheduler ES*/) {
 		
-		this.ES=ES;
-		courses.addAll(ES.getCourseList());
+		ES = ExamScheduler.getInstance();
+		
+		courses = ES.getCourseList();
 	
 		SpringLayout springLayout = new SpringLayout();
 		this.getContentPane().setLayout(springLayout);
@@ -53,9 +59,10 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 		springLayout.putConstraint(SpringLayout.WEST, btnConfirm, 147, SpringLayout.WEST, getContentPane());
 		btnConfirm.setBackground(new Color(141, 255, 113));
 		btnConfirm.setFont(new Font("Arial", Font.PLAIN, 15));
+		btnConfirm.addActionListener(this);
 		this.getContentPane().add(btnConfirm);
 		
-		addWindowListener(new ProgramTerminated(ES));
+		addWindowListener(new ProgramTerminated());
 		
 		this.setAlwaysOnTop(true);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
@@ -66,12 +73,21 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 		this.setVisible(true);
 		
 	}
+	
+	public static SelectCourseGUI getInstance() {
+        if (instance == null) {
+            instance = new SelectCourseGUI();
+        }
+        return instance;
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//When confirm button gets pressed, the selected course from the JComboBox gets selected
 		
 		String selectedCourseName = (String) courseBox.getSelectedItem();
+		if(selectedCourseName != null) {
+			
 		//HashcourseMap = createCourseMap();
 		HashMap<String, Course> map = this.createCourseMap();
 		Course selectedCourse=null;
@@ -83,12 +99,14 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 		}
 		
 		
-		if(selectedCourse == null) System.exit(1);
+		//if(selectedCourse == null) System.exit(1);
 		//Use the course object in next GUI...
-		new ScheduleExamGUI(ES,selectedCourse);
+		new ScheduleExamGUI(selectedCourse);
 		this.dispose();
+		} else {
 		
-		
+			    JOptionPane.showMessageDialog(null,"Please select a course before proceeding","No course selected",JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	 private HashMap<String, Course> createCourseMap() {

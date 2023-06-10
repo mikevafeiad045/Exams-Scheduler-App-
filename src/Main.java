@@ -5,13 +5,16 @@ public class Main {
 	public static void main(String[] args) {
 		
 		
-		ExamScheduler ES = new ExamScheduler(10,10,10,10,10,"05-05-23","17-05-23");
-		Secretary S= new Secretary(10,10,10,10,10,"05-05-23","17-05-23");
-		Course c = new Course("Algorithms",100);
+		LoginGUI.getInstance();
+		
+		
+		//ExamScheduler ES = new ExamScheduler(10,10,10,10,10,"05-05-23","17-05-23");
+		
+		//Course c = new Course("Algorithms",100);
 		
 						//Secretary GUIs for testing...
 						//Initial
-		//new LoginGUI(ES);
+		//new LoginGUI(/*ES*/);
 		//new RoomsGUI(/*ES*/);
 		//new InsertCourseGUI(S, ES);
 						//2nd LOGIN
@@ -19,7 +22,7 @@ public class Main {
 		//new CalendarGUI(ES);
 						
 						//Prof GUIs
-		//new ScheduleExamGUI(ES,c);
+		//new ScheduleExamGUI(c);
 		
 		//new SelectCourseGUI(ES);		
 

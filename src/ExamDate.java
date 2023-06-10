@@ -1,6 +1,11 @@
 import java.io.Serializable;
 
 public class ExamDate implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3L;
+
 	String day;
 
     private Course[] zones = new Course[6];

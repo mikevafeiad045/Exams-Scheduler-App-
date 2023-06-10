@@ -1,9 +1,9 @@
 import java.util.ArrayList;
-import java.io.File;
+//import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
+//import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,18 +11,43 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class ExamScheduler extends Secretary{
+public class ExamScheduler /*extends Secretary*/{
+	
+	private static ExamScheduler instance;
+	
+	 static ArrayList<Course> courseList;
+	 static ArrayList<Room> roomList;
+	 static int period;
+	 static int capacityAud;
+	 static int capacityAmph;
+	 static int numberOfAud;
+	 static int numberOfAmph;
+	 static String startDate;
+	 static String endDate;
 	
 	static final int EXAM_ZONES = 6;
 	private ArrayList<ExamDate> dates = new ArrayList<>();
 
-	
+	/*
 	 public ExamScheduler(int period, int capacityAud, int capacityAmph, int numberOfAud, 
 			 int numberOfAmph, String startDate, String endDate) {
 		 
 		super(period, capacityAud, capacityAmph, numberOfAud, numberOfAmph,startDate,endDate);
 	}
+	 */
+	 private ExamScheduler() {
+		/*super();*/
+		 
+		 courseList = new ArrayList<>();
+		 roomList = new ArrayList<>();
+	 }
 	 
+	 public static ExamScheduler getInstance() {
+	        if (instance == null) {
+	            instance = new ExamScheduler();
+	        }
+	        return instance;
+	    }
 	 
 	 public Course[] findDate(String day) { //Searching the date and if it isn't in the list dates adding it.
 	    	for(ExamDate d: dates) {
@@ -78,7 +103,7 @@ public class ExamScheduler extends Secretary{
 		//Returns array of size 3, containing the day, month and year int values
 		
 		//SimpleDateFormat inputFormat = new SimpleDateFormat ("EEE MMMM dd HH:mm:ss zzzz yyyy");
-		SimpleDateFormat inputFormat = new SimpleDateFormat ("MMM dd, yyyy");
+		SimpleDateFormat inputFormat = new SimpleDateFormat ("MMM d, y");
 		SimpleDateFormat outputFormat = new SimpleDateFormat ("dd-MM-yy");
 		
 		Date date=null;
@@ -100,9 +125,10 @@ public class ExamScheduler extends Secretary{
 	}
 	
 
-	public void saveToAvailabilityFile(ExamScheduler e)
+	public void saveToAvailabilityFile()
 	{		
-        ArrayList<ExamDate> tempDates = e.getDates();
+		
+        ArrayList<ExamDate> tempDates = this.getDates();
         
         try 
         {			       	
@@ -149,9 +175,10 @@ public class ExamScheduler extends Secretary{
 		}
 	}
 	
-	public void saveToRoomsFile(Secretary s)
+	public void saveToRoomsFile()
 	{   		
-        ArrayList<Room> tempRooms = s.getRoomList();
+
+        ArrayList<Room> tempRooms = this.getRoomList();
         
         try 
         {			       	
@@ -167,7 +194,7 @@ public class ExamScheduler extends Secretary{
 		} 
 	}
 	
-	public void openRoomsFile(Secretary s)
+	public void openRoomsFile()
 	{		
 		try 
 		{			
@@ -181,7 +208,7 @@ public class ExamScheduler extends Secretary{
 				
 			for(Room r: outRooms)
 			{
-				s.addRoom(r);
+				this.addRoom(r);
 			}
 		}
 		catch(FileNotFoundException e) 
@@ -198,12 +225,12 @@ public class ExamScheduler extends Secretary{
 		}					
 	}
 		
-	public void saveToCourseFile(Secretary s) 
+	public void saveToCourseFile() 
 	{		
-		ArrayList<Course> tempCourses = s.getCourseList();
+		ArrayList<Course> tempCourses = this.getCourseList();
         
         try {
-			if(s.getPeriod()==0)
+			if(getPeriod()==0)
 			{        	
         	    FileOutputStream fileOut = new FileOutputStream("xeimerino.ser");
 			    ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -211,7 +238,7 @@ public class ExamScheduler extends Secretary{
 			    out.close();
 			    fileOut.close();			
 			}
-			else if(s.getPeriod()==1)
+			else if(getPeriod()==1)
 			{
 				FileOutputStream fileOut = new FileOutputStream("earino.ser");
 			    ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -225,38 +252,39 @@ public class ExamScheduler extends Secretary{
 		}          
 	}
 	
-	public void openFromCourseFile(Secretary s) 
+	public void openFromCourseFile() 
 	{        
+		ArrayList<Course> outCourses;
 		try 
 		{
-			if(s.getPeriod()==0 || s.getPeriod()==2)
+			if(getPeriod()==0 || getPeriod()==2)
 			{
 				FileInputStream fileIn = new FileInputStream("xeimerino.ser");			
 				ObjectInputStream in = new ObjectInputStream(fileIn);			
 				
-				ArrayList<Course> outCourses = (ArrayList<Course>)in.readObject();
+				outCourses = (ArrayList<Course>)in.readObject();
 				
 				fileIn.close();
 				in.close();
 				
 				for(Course c: outCourses)
 				{
-					s.addCourse(c);
+					this.addCourse(c);
 				}
 			}
-			if(s.getPeriod()==1 || s.getPeriod()==2)
+			if(getPeriod()==1 || getPeriod()==2)
 			{
 				FileInputStream fileIn = new FileInputStream("earino.ser");			
 				ObjectInputStream in = new ObjectInputStream(fileIn);			
 				
-				ArrayList<Course> outCourses = (ArrayList<Course>)in.readObject();
+				outCourses = (ArrayList<Course>)in.readObject();
 				
 				fileIn.close();
 				in.close();
 				
 				for(Course c: outCourses)
 				{
-					s.addCourse(c);
+					this.addCourse(c);
 				}
 			}					
 		}		 
@@ -272,5 +300,77 @@ public class ExamScheduler extends Secretary{
 		{				
 			e.printStackTrace();
 		}
+		
     }	
+	
+	public ArrayList<Course> getCourseList() {
+		return courseList;
+	}
+
+	public ArrayList<Room> getRoomList() {
+		return roomList;
+	}
+
+	public int getCapacityAud() {
+		return capacityAud;
+	}
+	
+	public int getPeriod() {
+		return period;
+	}
+
+	public int getCapacityAmph() {
+		return capacityAmph;
+	}
+
+
+	public int getNumberOfAud() {
+		return numberOfAud;
+	}
+
+
+	public int getNumberOfAmph() {
+		return numberOfAmph;
+	}
+	
+	
+//Add objects to array lists methods
+	public void addCourse(Course C) {
+		courseList.add(C);
+	}
+	
+	public void addRoom(Room R) {
+		roomList.add(R);
+	}
+	
+	public void setCapacityAmph(int input) {
+		capacityAmph = input;
+	}
+	
+	public void setCapacityAud(int input) {
+		capacityAud = input;
+	}
+	
+	public void setStartDate(String startDate1) {
+		startDate = startDate1;
+	}
+
+	public void setEndDate(String endDate1) {
+		endDate = endDate1;
+	}
+
+
+	public void setPeriod(int period1) {
+		period = period1;
+	}
+
+
+	public void setNumberOfAud(int numberOfAud1) {
+		numberOfAud = numberOfAud1;
+	}
+
+
+	public void setNumberOfAmph(int numberOfAmph1) {
+		numberOfAmph = numberOfAmph1;
+	}
 }
