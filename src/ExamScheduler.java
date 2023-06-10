@@ -233,7 +233,7 @@ private HashMap<String, Integer> createHoursMap() {
 		ArrayList<Course> outCourses;
 		try 
 		{
-			if(getPeriod()==0 || getPeriod()==2)
+			if(period==0 || period==2)
 			{
 				FileInputStream fileIn = new FileInputStream("xeimerino.ser");			
 				ObjectInputStream in = new ObjectInputStream(fileIn);			
@@ -248,7 +248,7 @@ private HashMap<String, Integer> createHoursMap() {
 					this.addCourse(c);
 				}
 			}
-			if(getPeriod()==1 || getPeriod()==2)
+			if(period==1 || period==2)
 			{
 				FileInputStream fileIn = new FileInputStream("earino.ser");			
 				ObjectInputStream in = new ObjectInputStream(fileIn);			

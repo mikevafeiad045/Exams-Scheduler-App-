@@ -194,6 +194,13 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	
 	public boolean checkTextFields() {
 		
+			try {
+		        int d = Integer.parseInt(numtextField.getText());
+		    } catch (NumberFormatException nfe) {
+		    	JOptionPane.showMessageDialog(this,"Please enter a number in the number of students field","Error",JOptionPane.ERROR_MESSAGE);
+		    }
+		
+			
 		if(coursetextField.getText().equals("") 
 			|| proftextField.getText().equals("")
 			|| numtextField.getText().equals("")

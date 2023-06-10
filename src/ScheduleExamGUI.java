@@ -62,7 +62,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 	private int[] indices;
 	private String selectedRoomStr;
 	private Room selectedRoomObj;
-	private DefaultComboBoxModel<String> hoursBoxModel;
+   // private DefaultComboBoxModel<String> hoursBoxModel;
 	
 	
 	public ScheduleExamGUI(Course selectedCourse) {
@@ -130,9 +130,10 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 		sl_panel.putConstraint(SpringLayout.SOUTH, searchButton, -25, SpringLayout.NORTH, hoursBox);
 		sl_panel.putConstraint(SpringLayout.NORTH, hoursBox, 131, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, hoursBox, -85, SpringLayout.EAST, panel);
-		hoursBoxModel = new DefaultComboBoxModel<String>();
-		hoursBox.setModel(hoursBoxModel);
-	//	hoursBox.setRenderer(new DisabledItemsComboBoxRenderer());
+		
+		//hoursBoxModel = new DefaultComboBoxModel<String>();
+		//hoursBoxModel.addElement("No hours");
+		//hoursBox.setModel(hoursBoxModel);
 		hoursBox.setFont(new Font("Arial", Font.PLAIN, 15));
 		panel.add(hoursBox);
 	
@@ -141,14 +142,14 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 		for(String s : listValues) {
 			listModel.addElement(s);
 		}
-		//-----------------------------------------------------------/!\
+		//-----------------------------------------------------------
 		remainingStudents = new JLabel("Remaining students: ");
 		sl_panel.putConstraint(SpringLayout.WEST, remainingStudents, 86, SpringLayout.WEST, panel);
 		sl_panel.putConstraint(SpringLayout.SOUTH, remainingStudents, -10, SpringLayout.SOUTH, panel);
 		remainingStudents.setForeground(Color.BLACK);
 		remainingStudents.setFont(new Font("Arial", Font.PLAIN, 13));
 		panel.add(remainingStudents);
-		//---------------------------------------------------------------------------
+		//------------------------------------------------------------
 		
 		JLabel hoursLabel = new JLabel("Available Hours:");
 		sl_panel.putConstraint(SpringLayout.EAST, remainingStudents, 0, SpringLayout.EAST, hoursLabel);
@@ -224,37 +225,29 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 		
 		if(e.getSource() == searchButton) {
 			
-			ArrayList<String> availableHours = new ArrayList<>();
+			//ArrayList<String> availableHours = new ArrayList<>();
+		
+			hoursBox.removeAllItems();
 			
 			int i;
 			
-			for(i = coursesArray.length - 1; i>= 0; i--) {
-				hoursBox.remove(i);
-			}
-			
-			/*
 			for(i=0; i<coursesArray.length; i++) {
-				hoursBox.remove(i);
-			}
-			*/
-			
-			for(i=0; i<coursesArray.length; i++) {
-				if(coursesArray[i] == null) {	
+				if(!(coursesArray[i] instanceof Course)){	
 					hoursBox.addItem(examHours[i]);
-					availableHours.add(examHours[i]);
+					//availableHours.add(examHours[i]);
 				}
 			}
 			
 			
-			String[] availableHoursArray = availableHours.toArray(new String[0]);
+			//String[] availableHoursArray = availableHours.toArray(new String[0]);
 			
-			
+			/*
 			for(String s : availableHoursArray) {
 				hoursBoxModel.addElement(s);
-			}
+			}*/
 			//hoursBox.setModel(hoursBoxModel);
-			hoursBoxModel = new DefaultComboBoxModel<>(availableHoursArray);
-		    hoursBox.setModel(hoursBoxModel);
+			//hoursBoxModel = new DefaultComboBoxModel<>(availableHoursArray);
+		   // hoursBox.setModel(hoursBoxModel);
 			
 		}else if(e.getSource() == confirmButton){
 

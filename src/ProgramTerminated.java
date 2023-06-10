@@ -5,11 +5,9 @@ public class ProgramTerminated extends WindowAdapter{
 	
 	private ExamScheduler ES;
 	
-	public ProgramTerminated(/*ExamScheduler ES*/) {
+	public ProgramTerminated() {
 		
 		ES = ExamScheduler.getInstance();
-		
-		//this.ES = ES;
 	}
 
 	public void windowClosing(WindowEvent e) {

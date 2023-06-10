@@ -58,6 +58,11 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	private RoomsGUI() {
 		ES = ExamScheduler.getInstance();
 		
+		ES.openAvailabilityFile();
+		
+		ES.openRoomsFile();
+		
+		ES.openFromCourseFile();
 		
 		roomsPanel= new JPanel();
 		roomsPanel.setLayout(new FlowLayout(FlowLayout.CENTER,1050,15));
@@ -228,13 +233,14 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				String convertedFinalDate = ES.ConvertDate(tempFinal);
 				//System.out.println("The converted final date is: " + convertedFinalDate);
 				
-				ES.setPeriod(period);
+				ES.setPeriod(period-1);
 				ES.setNumberOfAud(audnum);
 				ES.setCapacityAud(audcap);
 				ES.setNumberOfAmph(ampnum);
 				ES.setCapacityAmph(ampcap);
 				ES.setStartDate(convertedStartDate);
 				ES.setEndDate(convertedFinalDate);
+				
 				
 				
 				for(int i=0; i<ampnum; i++) {
@@ -247,7 +253,12 @@ public class RoomsGUI extends JFrame implements ActionListener {
 					ES.addRoom(room);
 				}
 				
-				new InsertCourseGUI();
+				if(period != 2) {
+					new InsertCourseGUI();
+				}else {
+					LoginGUI.getInstance().setVisible(true);
+				}
+				
 				this.dispose();
 			}else {
 				JOptionPane.showMessageDialog(null,"All the fields are Required!");
