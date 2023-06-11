@@ -1,7 +1,11 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -38,16 +42,13 @@ public class CalendarGUI extends JFrame{
 		list.setFixedCellHeight(44);
 		list.setVisible(true);
 		
-		//String[] test = new String[]{"1","2","3"}; 
 	
  		model = new DefaultListModel<>();
- 		/*for(String t : test) {
- 			model.addElement(t);
- 		}*/
 		list.setModel(model);
+		list.setCellRenderer(new BorderedListCellRenderer());
+		//list.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		JScrollPane scrollPane = new JScrollPane(list);
-		//scrollPane.setViewportView(list);
 		
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
@@ -117,6 +118,20 @@ public class CalendarGUI extends JFrame{
 
         return key;
 	}
+	
+	 private class BorderedListCellRenderer extends DefaultListCellRenderer {
+
+	        private static final int BORDER_PADDING = 1;
+
+	        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+	            Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+	            setBorder(BorderFactory.createCompoundBorder(
+	                    BorderFactory.createLineBorder(Color.BLACK),
+	                    BorderFactory.createEmptyBorder(BORDER_PADDING, 0, BORDER_PADDING, 0)
+	            ));
+	            return component;
+	        }
+	    }
 	
 }
 

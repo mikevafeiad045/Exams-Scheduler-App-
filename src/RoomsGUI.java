@@ -22,8 +22,6 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	
 	private static RoomsGUI instance;
 	
-	//private static ExamScheduler scheduler;
-	
 	private static JPanel roomsPanel;
 	private static JLabel roomsLabel;
 	private static JLabel periodLabel;

@@ -12,27 +12,9 @@ import java.util.ArrayList;
 
 import java.util.HashMap;
 
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SpringLayout;
-
 import com.toedter.calendar.JDateChooser;
-import javax.swing.UIManager;
-//import javax.swing.plaf.basic.BasicComboBoxRenderer;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 
-
+import javax.swing.*;
 
 
 public class ScheduleExamGUI extends JFrame implements ActionListener, MouseListener {
@@ -62,7 +44,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 	private int[] indices;
 	private String selectedRoomStr;
 	private Room selectedRoomObj;
-   // private DefaultComboBoxModel<String> hoursBoxModel;
+	private String selectedDate;
 	
 	
 	public ScheduleExamGUI(Course selectedCourse) {
@@ -116,7 +98,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 		sl_panel.putConstraint(SpringLayout.EAST, dateChooser, -220, SpringLayout.EAST, panel);
 		panel.add(dateChooser);
 		
-		JButton searchButton = new JButton("Search");
+		this.searchButton = new JButton("Search");
 		sl_panel.putConstraint(SpringLayout.NORTH, searchButton, 62, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.WEST, searchButton, 34, SpringLayout.EAST, dateChooser);
 		sl_panel.putConstraint(SpringLayout.EAST, searchButton, -85, SpringLayout.EAST, panel);
@@ -130,10 +112,6 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 		sl_panel.putConstraint(SpringLayout.SOUTH, searchButton, -25, SpringLayout.NORTH, hoursBox);
 		sl_panel.putConstraint(SpringLayout.NORTH, hoursBox, 131, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, hoursBox, -85, SpringLayout.EAST, panel);
-		
-		//hoursBoxModel = new DefaultComboBoxModel<String>();
-		//hoursBoxModel.addElement("No hours");
-		//hoursBox.setModel(hoursBoxModel);
 		hoursBox.setFont(new Font("Arial", Font.PLAIN, 15));
 		panel.add(hoursBox);
 	
@@ -142,14 +120,14 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 		for(String s : listValues) {
 			listModel.addElement(s);
 		}
-		//-----------------------------------------------------------
+		
 		remainingStudents = new JLabel("Remaining students: ");
 		sl_panel.putConstraint(SpringLayout.WEST, remainingStudents, 86, SpringLayout.WEST, panel);
 		sl_panel.putConstraint(SpringLayout.SOUTH, remainingStudents, -10, SpringLayout.SOUTH, panel);
 		remainingStudents.setForeground(Color.BLACK);
 		remainingStudents.setFont(new Font("Arial", Font.PLAIN, 13));
 		panel.add(remainingStudents);
-		//------------------------------------------------------------
+		
 		
 		JLabel hoursLabel = new JLabel("Available Hours:");
 		sl_panel.putConstraint(SpringLayout.EAST, remainingStudents, 0, SpringLayout.EAST, hoursLabel);
@@ -170,7 +148,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 		suggestedRoomsLabel.setFont(new Font("Arial", Font.PLAIN, 17));
 		panel.add(suggestedRoomsLabel);
 		
-		remStudField = new JTextField(selectedCourse.getNumberOfStudents());
+		remStudField = new JTextField(Integer.toString(selectedCourse.getNumberOfStudents()));
 		sl_panel.putConstraint(SpringLayout.NORTH, remStudField, 189, SpringLayout.SOUTH, suggestedRoomsLabel);
 		sl_panel.putConstraint(SpringLayout.WEST, remStudField, 6, SpringLayout.EAST, remainingStudents);
 		sl_panel.putConstraint(SpringLayout.SOUTH, remStudField, -10, SpringLayout.SOUTH, panel);
@@ -215,40 +193,28 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		try {
+			selectedDate = dateChooser.getDate().toString();
+		}catch(Exception e1){
+			JOptionPane.showMessageDialog(this,"Please select a date","Error",JOptionPane.ERROR_MESSAGE);
 		
-		String selectedDate = dateChooser.getDate().toString();
+		}
+		
 		String convertedDate = ES.ConvertDate(selectedDate);//dd-MM-yy
 		
 		Course[] coursesArray= new Course[6];
 		coursesArray = ES.findDate(convertedDate);
 		
-		
 		if(e.getSource() == searchButton) {
-			
-			//ArrayList<String> availableHours = new ArrayList<>();
-		
-			hoursBox.removeAllItems();
 			
 			int i;
 			
 			for(i=0; i<coursesArray.length; i++) {
 				if(!(coursesArray[i] instanceof Course)){	
-					hoursBox.addItem(examHours[i]);
-					//availableHours.add(examHours[i]);
+					this.hoursBox.addItem(examHours[i]);
 				}
 			}
-			
-			
-			//String[] availableHoursArray = availableHours.toArray(new String[0]);
-			
-			/*
-			for(String s : availableHoursArray) {
-				hoursBoxModel.addElement(s);
-			}*/
-			//hoursBox.setModel(hoursBoxModel);
-			//hoursBoxModel = new DefaultComboBoxModel<>(availableHoursArray);
-		   // hoursBox.setModel(hoursBoxModel);
-			
+
 		}else if(e.getSource() == confirmButton){
 
 		

@@ -5,29 +5,8 @@ public class Main {
 	public static void main(String[] args) {
 		
 		
-		LoginGUI.getInstance();
-		
-		
-		//ExamScheduler ES = new ExamScheduler(10,10,10,10,10,"05-05-23","17-05-23");
-		
-		//Course c = new Course("Algorithms",100);
-		
-						//Secretary GUIs for testing...
-						//Initial
-		//new LoginGUI();
-		//new RoomsGUI();
-		//new InsertCourseGUI();
-						//2nd LOGIN
-		//new SecretaryGUI2();
-		//new CalendarGUI();
-						
-						//Prof GUIs
-		//new ScheduleExamGUI(c);
-		
-		//new SelectCourseGUI();		
+		LoginGUI.getInstance();	
 
 	}
 	
-
-
 }

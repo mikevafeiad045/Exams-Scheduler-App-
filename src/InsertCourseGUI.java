@@ -130,8 +130,6 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 		listModel = new DefaultListModel<>();	
 		list.setModel(listModel);
 	   
-	    //list.setBounds(0, 0, 484, 461);
-       // list.setFont(list.getFont().deriveFont(14.0f));
 		list.setFont(new Font("Arial", Font.PLAIN, 16));
         list.setFixedCellHeight(35);
         list.setVisible(true);
@@ -195,7 +193,7 @@ public class InsertCourseGUI extends JFrame implements ActionListener{
 	public boolean checkTextFields() {
 		
 			try {
-		        int d = Integer.parseInt(numtextField.getText());
+		        Integer.parseInt(numtextField.getText());
 		    } catch (NumberFormatException nfe) {
 		    	JOptionPane.showMessageDialog(this,"Please enter a number in the number of students field","Error",JOptionPane.ERROR_MESSAGE);
 		    }

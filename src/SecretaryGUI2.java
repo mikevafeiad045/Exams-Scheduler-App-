@@ -71,6 +71,8 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		getContentPane().add(optionsLabel);
 		
 		viewProgButton = new JButton("View Schedule");
+		viewProgButton.setForeground(new Color(42, 42, 42));
+		viewProgButton.setBackground(new Color(153, 255, 153));
 		viewProgButton.setBounds(152, 153, 123, 46);
 		getContentPane().add(viewProgButton);
 		
