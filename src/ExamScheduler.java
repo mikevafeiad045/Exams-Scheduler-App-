@@ -76,21 +76,21 @@ private HashMap<String, Integer> createHoursMap() {
         return map;
  }
 	
-	public String ConvertDate(String inputDate) {
+	public String ConvertDate(Date inputDate) {
 		//Converts input date from date chooser to simple date format
 		//Returns array of size 3, containing the day, month and year int values
 		
-		SimpleDateFormat inputFormat = new SimpleDateFormat ("EEE MMMM dd HH:mm:ss zzzz yyyy");
+		//SimpleDateFormat inputFormat = new SimpleDateFormat ("EEE MMM dd HH:mm:ss zzzz yyyy");
 		SimpleDateFormat outputFormat = new SimpleDateFormat ("dd-MM-yy");
-		
+		/*
 		Date date=null;
 		try {
 			 date = inputFormat.parse(inputDate);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-	    
-	    String outputDate = outputFormat.format(date);
+	    */
+	    String outputDate = outputFormat.format(inputDate);
 	    
 	    return outputDate; 
     

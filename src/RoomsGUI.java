@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -183,7 +184,7 @@ public class RoomsGUI extends JFrame implements ActionListener {
 		
 		getContentPane().add(roomsPanel);
 		
-		//addWindowListener(new ProgramTerminated(ES));
+		addWindowListener(new ProgramTerminated());
 		
 		this.setSize(700,800);
 		this.setTitle("Create new Exam Period");
@@ -219,17 +220,15 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				int ampcap = Integer.parseInt(ampcapText.getText());
 				
 				//Getting start date
-				
-				String tempStart = startdateChooser.getDate().toString();
-				//System.out.println("The start date with toString format is : " + tempStart);
+				Date tempStart = startdateChooser.getDate();
+				System.out.println("The start date with date format is : " + tempStart);
 				String convertedStartDate = ES.ConvertDate(tempStart);
-				//System.out.println("The converted start date is: " + convertedStartDate);
+				System.out.println("The converted start date is: " + convertedStartDate);
 				
 				//Getting end date
-				String tempFinal = finaldateChooser.getDate().toString();
-				//System.out.println("The end date direct with tostring format is : " + tempFinal);
+				Date tempFinal = finaldateChooser.getDate();
+				System.out.println("The end date direct with date format is : " + tempFinal);
 				String convertedFinalDate = ES.ConvertDate(tempFinal);
-				//System.out.println("The converted final date is: " + convertedFinalDate);
 				
 				ES.setPeriod(period-1);
 				ES.setNumberOfAud(audnum);

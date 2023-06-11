@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import java.util.ArrayList;
-
+import java.util.Date;
 import java.util.HashMap;
 
 import com.toedter.calendar.JDateChooser;
@@ -44,7 +44,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 	private int[] indices;
 	private String selectedRoomStr;
 	private Room selectedRoomObj;
-	private String selectedDate;
+	private Date selectedDate;
 	
 	
 	public ScheduleExamGUI(Course selectedCourse) {
@@ -194,7 +194,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 	public void actionPerformed(ActionEvent e) {
 		
 		try {
-			selectedDate = dateChooser.getDate().toString();
+			selectedDate = dateChooser.getDate();
 		}catch(Exception e1){
 			JOptionPane.showMessageDialog(this,"Please select a date","Error",JOptionPane.ERROR_MESSAGE);
 		
