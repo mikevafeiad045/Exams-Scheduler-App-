@@ -283,6 +283,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 				}
 				
 				int tempRoomType = selectedRoomObj.getType();
+
 				int roomCapacity = -1;
 				
 				if(tempRoomType == 0) {

@@ -221,13 +221,10 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				
 				//Getting start date
 				Date tempStart = startdateChooser.getDate();
-				System.out.println("The start date with date format is : " + tempStart);
 				String convertedStartDate = ES.ConvertDate(tempStart);
-				System.out.println("The converted start date is: " + convertedStartDate);
 				
 				//Getting end date
 				Date tempFinal = finaldateChooser.getDate();
-				System.out.println("The end date direct with date format is : " + tempFinal);
 				String convertedFinalDate = ES.ConvertDate(tempFinal);
 				
 				ES.setPeriod(period-1);
@@ -241,12 +238,12 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				
 				
 				for(int i=0; i<ampnum; i++) {
-					Room room = new Room("AMP"+String.valueOf(i+1),ampcap);
+					Room room = new Room("AMP"+String.valueOf(i+1),1);
 					ES.addRoom(room);
 				}
 				
 				for(int i=0; i<audnum; i++) {
-					Room room = new Room("AUD"+String.valueOf(i+1),audcap);
+					Room room = new Room("AUD"+String.valueOf(i+1),0);
 					ES.addRoom(room);
 				}
 				
