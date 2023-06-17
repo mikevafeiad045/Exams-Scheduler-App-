@@ -57,7 +57,7 @@ public class CalendarGUI extends JFrame{
 		revalidate();
 
 		for(ExamDate d: exams) {
-			
+
 			String examDayElem = d.day; 
 			Course[] coursesZone= d.getZone();
 			String courseNameElem;
@@ -65,16 +65,16 @@ public class CalendarGUI extends JFrame{
 			ArrayList<Room> rooms = new ArrayList<>();
 			String combinedElements;
 			String hourElem;
-			
+
 			int i;
 			for(i=0;i<6;i++) {
-				
+
 				if(coursesZone[i]!=null) {//if an exam is scheduled at that time
 					courseNameElem = coursesZone[i].getCourseName();
 					profs = coursesZone[i].getProfessorsList();
 					rooms = coursesZone[i].getSelectedRoomsList();
 					hourElem = this.findHoursFromIndex(i);
-					
+
 					//Appending all professor names in a single string
 					StringBuilder sb = new StringBuilder();
 					for(int j=0; j<profs.size();j++) {
@@ -83,7 +83,7 @@ public class CalendarGUI extends JFrame{
 							sb.append(", ");
 						}
 					}
-					
+
 					//Appending all room codenames in a single string
 					StringBuilder sb2 = new StringBuilder();
 					for(int j=0; j<rooms.size();j++) {
@@ -100,7 +100,7 @@ public class CalendarGUI extends JFrame{
 
 		}
 
-		ImageIcon logo = new ImageIcon("logo.png");
+		ImageIcon logo = new ImageIcon(getClass().getResource("/resources/logo.png"));
 		this.setIconImage(logo.getImage());
 
 		this.setSize(700,500);
@@ -109,7 +109,7 @@ public class CalendarGUI extends JFrame{
 		this.setVisible(true);
 
 	}
-	
+
 	/**
 	 * Reverse HashMap search for the string depending on an index (e.g. value index 0 in the availability array will return key 
 	 * "9:00-11:00")
@@ -150,7 +150,6 @@ public class CalendarGUI extends JFrame{
 	}
 
 }
-
 
 
 

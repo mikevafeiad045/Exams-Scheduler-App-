@@ -59,8 +59,8 @@ public class RoomsGUI extends JFrame implements ActionListener {
 	private static JButton button;
 	private JComboBox<String> periodBox;
 	private ExamScheduler ES;
-	
-	
+
+
 	private RoomsGUI() {
 
 
@@ -197,7 +197,7 @@ public class RoomsGUI extends JFrame implements ActionListener {
 		this.setTitle("Create new Exam Period");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		ImageIcon logo= new ImageIcon("logo.png");
+		ImageIcon logo= new ImageIcon(getClass().getResource("/resources/logo.png"));
 		this.setIconImage(logo.getImage());
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -237,7 +237,7 @@ public class RoomsGUI extends JFrame implements ActionListener {
 				int ampnum = Integer.parseInt(ampnumText.getText());
 				int ampcap = Integer.parseInt(ampcapText.getText());
 
-	
+
 				Date tempStart = startdateChooser.getDate();
 				String convertedStartDate = ES.ConvertDate(tempStart);
 
@@ -278,7 +278,7 @@ public class RoomsGUI extends JFrame implements ActionListener {
 		}
 
 	}
-	
+
 	/**
 	 * Method for checking if all fields have been filled out
 	 * 
@@ -302,4 +302,3 @@ public class RoomsGUI extends JFrame implements ActionListener {
 		}
 	}
 }
-

@@ -71,7 +71,7 @@ public class SelectCourseGUI extends JFrame implements ActionListener {
 		addWindowListener(new ProgramTerminated());//data saved to files before termination
 
 		this.setAlwaysOnTop(true);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/resources/logo.png")));
 		this.setTitle("Select Course");
 		this.setSize(400,400);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

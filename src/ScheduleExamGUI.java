@@ -186,7 +186,7 @@ public class ScheduleExamGUI extends JFrame implements ActionListener, MouseList
 		addWindowListener(new ProgramTerminated());
 
 		this.setAlwaysOnTop(true);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("logo.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/resources/logo.png")));
 		this.setTitle("Schedule The Exam");
 		this.setSize(500,500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

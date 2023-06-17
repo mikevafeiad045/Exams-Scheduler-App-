@@ -33,7 +33,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 		firstLogin = true;
 
 		// Label Settings and Styling
-		ImageIcon logo1= new ImageIcon("logo1.png");//Creating Icon
+		ImageIcon logo1= new ImageIcon(getClass().getResource("/resources/logo1.png"));//Creating Icon
 		passwordLabel= new JLabel("Password");//Creating Label
 		passwordLabel.setIcon(logo1);
 		passwordLabel.setHorizontalTextPosition(JLabel.CENTER);//Settings for the location of the 
@@ -62,7 +62,7 @@ public class LoginGUI extends JFrame implements ActionListener{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		//Frame Icon
-		ImageIcon logo= new ImageIcon("logo.png");
+		ImageIcon logo= new ImageIcon(getClass().getResource("/resources/logo.png"));
 		this.setIconImage(logo.getImage());
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);

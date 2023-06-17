@@ -102,7 +102,7 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 
 		getContentPane().add(resetLabel);
 		//Frame Icon
-		ImageIcon logo= new ImageIcon("logo.png");
+		ImageIcon logo= new ImageIcon(getClass().getResource("/resources/logo.png"));
 		this.setIconImage(logo.getImage());
 		getContentPane().setLayout(null);
 
