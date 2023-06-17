@@ -11,127 +11,150 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-
+/**
+ * Singleton central class of the program. Contains as properties all inputs from the secretary regarding
+ * current (and previous) semesters.
+ * Contains methods for scheduling the exam, as well as file handling.
+ * 
+ * @version 17 Jun 2023
+ * @author Michalis Vafeiadis, Dimitra Papadopoulou, Stavros Samaras, Charina Makri
+ */
 public class ExamScheduler{
-	
-	 private static ExamScheduler instance;
-	
-	 static final int EXAM_ZONES = 6;
-	 private static ArrayList<Course> courseList;
-	 private static ArrayList<Room> roomList;
-	 private static int period;
-	 private static int capacityAud;
-	 private static int capacityAmph;
-	 private static int numberOfAud;
-	 private static int numberOfAmph;
-	 private static String startDate;
-	 private static String endDate;
-	 private String examHours[] =new String[] {"9:00-11:00", "11:00-13:00", "13:00-15:00", "15:00-17:00", "17:00-19:00", "19:00-21:00"};
-	 private HashMap<String, Integer> hoursMap;
-	
-	 private ArrayList<ExamDate> dates = new ArrayList<>();
 
-	 private ExamScheduler() {
-		 courseList = new ArrayList<>();
-		 roomList = new ArrayList<>();
-		 hoursMap = this.createHoursMap();
-	 }
-	 
-	 public static ExamScheduler getInstance() {
-	        if (instance == null) {
-	            instance = new ExamScheduler();
-	        }
-	        return instance;
-	    }
-	 
-	 public Course[] findDate(String day) { //Searching the date and if it isn't in the list dates adding it.
-	    	for(ExamDate d: dates) {
-	    		if (d.day.equals(day)) {//Date found
-	    			return d.getZone();
-	    		}
-	    	}
-	    	//Not found, Adding it to dates
-	    	ExamDate selectedDate = new ExamDate(day);
-	    	dates.add(selectedDate);
-	    	return selectedDate.getZone();
-	    }
+	private static ExamScheduler instance;
 
+	static final int EXAM_ZONES = 6;
+	private static ArrayList<Course> courseList;
+	private static ArrayList<Room> roomList;
+	private static int period;
+	private static int capacityAud;
+	private static int capacityAmph;
+	private static int numberOfAud;
+	private static int numberOfAmph;
+	private static String startDate;//not used in current version (17 Jun 2023)
+	private static String endDate;// -//-
+	private String examHours[] =new String[] {"9:00-11:00", "11:00-13:00", "13:00-15:00", "15:00-17:00", "17:00-19:00", "19:00-21:00"};
+	private HashMap<String, Integer> hoursMap;//<"##:##-##:##", ##>
+
+	private ArrayList<ExamDate> dates = new ArrayList<>();
+
+	private ExamScheduler() {
+		courseList = new ArrayList<>();
+		roomList = new ArrayList<>();
+		hoursMap = this.createHoursMap();
+	}
+
+	/**
+	 * Returns the singleton instance of ExamScheduler.
+	 *
+	 * @return the singleton instance
+	 */
+	public static ExamScheduler getInstance() {
+		if (instance == null) {
+			instance = new ExamScheduler();
+		}
+		return instance;
+	}
+
+
+	/**
+	 * Method for searching the date and if it isn't in the list dates, adding it.
+	 * 
+	 * @param day
+	 * @return course array
+	 */
+	public Course[] findDate(String day) { 
+		for(ExamDate d: dates) {
+			if (d.day.equals(day)) {//Date found
+				return d.getZone();
+			}
+		}
+		//Not found, Adding it to dates
+		ExamDate selectedDate = new ExamDate(day);
+		dates.add(selectedDate);
+		return selectedDate.getZone();
+	}
+
+	/**
+	 * Method for dynamically calculating remaining students after the professor clicks a rooms JList element
+	 * 
+	 * @param students
+	 * @param capacity
+	 * @return remainingStudents
+	 */
 	public int calcRemainingStudents(int students, int capacity) {
-		
+
 		int remainingStudents = students-capacity;
 		if(remainingStudents <=0) return 0;
 		return remainingStudents;
-		 
+
 	}
-	
-	
-private HashMap<String, Integer> createHoursMap() {
-		
-        HashMap<String, Integer> map = new HashMap<>();
-        int increment=0;
-        for (String s : examHours) {
-            map.put(s, increment);
-            increment++;
-        }
-        return map;
- }
-	
-	public String ConvertDate(Date inputDate) {
-		//Converts input date from date chooser to simple date format
-		//Returns array of size 3, containing the day, month and year int values
-		
-		//SimpleDateFormat inputFormat = new SimpleDateFormat ("EEE MMM dd HH:mm:ss zzzz yyyy");
-		SimpleDateFormat outputFormat = new SimpleDateFormat ("dd-MM-yy");
-		/*
-		Date date=null;
-		try {
-			 date = inputFormat.parse(inputDate);
-		}catch(Exception e) {
-			e.printStackTrace();
+
+	/**
+	 * Hash map for more compact matching between hour strings and availability array indexes
+	 *
+	 * @return map
+	 */
+	private HashMap<String, Integer> createHoursMap() {
+
+		HashMap<String, Integer> map = new HashMap<>();
+		int increment=0;
+		for (String s : examHours) {
+			map.put(s, increment);
+			increment++;
 		}
-	    */
-	    String outputDate = outputFormat.format(inputDate);
-	    
-	    return outputDate; 
-    
+		return map;
 	}
-	
+
+	/**
+	 * Method for converting input date from date chooser to simple date format
+	 * 
+	 * @param inputDate
+	 * @return outputDate
+	 */
+	public String ConvertDate(Date inputDate) {
+
+		SimpleDateFormat outputFormat = new SimpleDateFormat ("dd-MM-yy");
+		String outputDate = outputFormat.format(inputDate);
+
+		return outputDate; 
+
+	}
+
+	//File handling methods ------------------------
 
 	public void saveToAvailabilityFile()
 	{		
-		
-        ArrayList<ExamDate> tempDates = this.getDates();
-        
-        try 
-        {			       	
-        	FileOutputStream fileOut = new FileOutputStream("dates.ser");
+
+		ArrayList<ExamDate> tempDates = this.getDates();
+
+		try 
+		{			       	
+			FileOutputStream fileOut = new FileOutputStream("dates.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(tempDates);
 			out.close();
-		    fileOut.close();			
+			fileOut.close();			
 		}		
 		catch(IOException i) 
-        {
+		{
 			i.printStackTrace();
 		} 
 	}
-	
-	
-	
-	
-	
+
+
 	public void openAvailabilityFile()
 	{
 		try 
 		{			
 			FileInputStream fileIn = new FileInputStream("dates.ser");			
 			ObjectInputStream in = new ObjectInputStream(fileIn);			
-				
+
 			ArrayList<ExamDate> inDates = (ArrayList<ExamDate>)in.readObject();
-				
+
 			fileIn.close();
 			in.close();
-				
+
 			for(ExamDate d: inDates)
 			{
 				dates.add(d);
@@ -150,38 +173,40 @@ private HashMap<String, Integer> createHoursMap() {
 			e.printStackTrace();
 		}
 	}
-	
+
+
 	public void saveToRoomsFile()
 	{   		
 
-        ArrayList<Room> tempRooms = this.getRoomList();
-        
-        try 
-        {			       	
-        	FileOutputStream fileOut = new FileOutputStream("rooms.ser");
+		ArrayList<Room> tempRooms = this.getRoomList();
+
+		try 
+		{			       	
+			FileOutputStream fileOut = new FileOutputStream("rooms.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(tempRooms);
 			out.close();
-		    fileOut.close();			
+			fileOut.close();			
 		}		
 		catch(IOException i) 
-        {
+		{
 			i.printStackTrace();
 		} 
 	}
-	
+
+
 	public void openRoomsFile()
 	{		
 		try 
 		{			
 			FileInputStream fileIn = new FileInputStream("rooms.ser");			
 			ObjectInputStream in = new ObjectInputStream(fileIn);			
-				
+
 			ArrayList<Room> outRooms = (ArrayList<Room>)in.readObject();
-				
+
 			fileIn.close();
 			in.close();
-				
+
 			for(Room r: outRooms)
 			{
 				this.addRoom(r);
@@ -200,34 +225,35 @@ private HashMap<String, Integer> createHoursMap() {
 			e.printStackTrace();
 		}					
 	}
-		
+
+
 	public void saveToCourseFile() 
 	{		
 		ArrayList<Course> tempCourses = this.getCourseList();
-        
-        try {
+
+		try {
 			if(getPeriod()==0)
 			{        	
-        	    FileOutputStream fileOut = new FileOutputStream("xeimerino.ser");
-			    ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			    out.writeObject(tempCourses);
-			    out.close();
-			    fileOut.close();			
+				FileOutputStream fileOut = new FileOutputStream("xeimerino.ser");
+				ObjectOutputStream out = new ObjectOutputStream(fileOut);
+				out.writeObject(tempCourses);
+				out.close();
+				fileOut.close();			
 			}
 			else if(getPeriod()==1)
 			{
 				FileOutputStream fileOut = new FileOutputStream("earino.ser");
-			    ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			    out.writeObject(tempCourses);
-			    out.close();
-			    fileOut.close();
+				ObjectOutputStream out = new ObjectOutputStream(fileOut);
+				out.writeObject(tempCourses);
+				out.close();
+				fileOut.close();
 			}
 		}
 		catch(IOException i) {
 			i.printStackTrace();
 		}          
 	}
-	
+
 	public void openFromCourseFile() 
 	{        
 		ArrayList<Course> outCourses;
@@ -237,12 +263,12 @@ private HashMap<String, Integer> createHoursMap() {
 			{
 				FileInputStream fileIn = new FileInputStream("xeimerino.ser");			
 				ObjectInputStream in = new ObjectInputStream(fileIn);			
-				
+
 				outCourses = (ArrayList<Course>)in.readObject();
-				
+
 				fileIn.close();
 				in.close();
-				
+
 				for(Course c: outCourses)
 				{
 					this.addCourse(c);
@@ -252,12 +278,12 @@ private HashMap<String, Integer> createHoursMap() {
 			{
 				FileInputStream fileIn = new FileInputStream("earino.ser");			
 				ObjectInputStream in = new ObjectInputStream(fileIn);			
-				
+
 				outCourses = (ArrayList<Course>)in.readObject();
-				
+
 				fileIn.close();
 				in.close();
-				
+
 				for(Course c: outCourses)
 				{
 					this.addCourse(c);
@@ -276,9 +302,10 @@ private HashMap<String, Integer> createHoursMap() {
 		{				
 			e.printStackTrace();
 		}
-		
-    }	
-	
+
+	}	
+
+	//Getters and setters ------------------------
 	public ArrayList<Course> getCourseList() {
 		return courseList;
 	}
@@ -290,7 +317,7 @@ private HashMap<String, Integer> createHoursMap() {
 	public int getCapacityAud() {
 		return capacityAud;
 	}
-	
+
 	public int getPeriod() {
 		return period;
 	}
@@ -308,25 +335,25 @@ private HashMap<String, Integer> createHoursMap() {
 	public int getNumberOfAmph() {
 		return numberOfAmph;
 	}
-	
-	
-//Add objects to array lists methods
+
+
+	//Add objects to array lists methods
 	public void addCourse(Course C) {
 		courseList.add(C);
 	}
-	
+
 	public void addRoom(Room R) {
 		roomList.add(R);
 	}
-	
+
 	public void setCapacityAmph(int input) {
 		capacityAmph = input;
 	}
-	
+
 	public void setCapacityAud(int input) {
 		capacityAud = input;
 	}
-	
+
 	public void setStartDate(String startDate1) {
 		startDate = startDate1;
 	}
@@ -361,10 +388,10 @@ private HashMap<String, Integer> createHoursMap() {
 	public void setDates(ArrayList<ExamDate> dates) {
 		this.dates = dates;
 	}
-	
+
 	public ArrayList<ExamDate> getDates(){
 		return dates;
 	}
-	
-	
+
+
 }

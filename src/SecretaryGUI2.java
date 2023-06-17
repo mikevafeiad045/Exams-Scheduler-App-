@@ -24,10 +24,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.io.IOException;
 
-
-
+/**
+ * GUI class for the window which appears after the first time the secretary logs in. Provides with options for viewing inserted courses
+ * from the dropdown list, viewing how the schedule looks at any time, creating a new exam schedule, logging out, and their respective button listeners.
+ *  
+ * @version 17 Jun 2023
+ * @author Michalis Vafeiadis
+ */
 public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListener{
-	
+
 	JButton viewProgButton;
 	JButton logoutButton;
 	JComboBox<String> courseBoxList;
@@ -35,12 +40,12 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 	JLabel resetLabel;
 
 	ExamScheduler ES;
-	
+
 
 	public SecretaryGUI2() {
-		
+
 		ES = ExamScheduler.getInstance();
-		
+
 
 		ArrayList<Course> tempList = ES.getCourseList();
 		int sizeOfList = tempList.size();
@@ -48,9 +53,9 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		String[] listA = new String[sizeOfList];
 
 		for (int i = 0; i < sizeOfList; i++) {
-		    listA[i] = tempList.get(i).getCourseName();
+			listA[i] = tempList.get(i).getCourseName();
 		}
-		
+
 		courseBoxList = new JComboBox<String>();
 		courseBoxList.addItem("-Courses-");
 		courseBoxList.setSelectedItem("-Courses-");
@@ -62,103 +67,103 @@ public class SecretaryGUI2 extends JFrame implements ActionListener, MouseListen
 		courseBoxList.setBounds(119, 92, 190, 35);
 		courseBoxList.setModel(new DefaultComboBoxModel<String>(listA));
 		getContentPane().add(courseBoxList);
-		
+
 		optionsLabel = new JLabel("Options");
 		optionsLabel.setForeground(new Color(61, 61, 61));
 		optionsLabel.setBackground(new Color(255, 255, 255));
 		optionsLabel.setFont(new Font("Arial", Font.PLAIN, 27));
 		optionsLabel.setBounds(164, 36, 100, 46);
 		getContentPane().add(optionsLabel);
-		
+
 		viewProgButton = new JButton("View Schedule");
 		viewProgButton.setForeground(new Color(42, 42, 42));
 		viewProgButton.setBackground(new Color(153, 255, 153));
 		viewProgButton.setBounds(152, 153, 123, 46);
 		getContentPane().add(viewProgButton);
-		
+
 		logoutButton = new JButton("LogOut");
 		logoutButton.setForeground(new Color(0, 0, 0));
 		logoutButton.setBackground(new Color(255, 255, 255));
-		
-		
+
+
 		logoutButton.addActionListener(this);
 		viewProgButton.addActionListener(this);
-	
+
 		logoutButton.setBounds(330, 256, 76, 27);
 		getContentPane().add(logoutButton);
-		
+
 		resetLabel = new JLabel("<html><u>Create new exams schedule</u></html>");
 		resetLabel.setForeground(new Color(255, 0, 0));
 		resetLabel.setBounds(25, 256, 173, 27);
 		resetLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		
-		
+
+
 		resetLabel.addMouseListener(this);
-		
+
 		getContentPane().add(resetLabel);
 		//Frame Icon
 		ImageIcon logo= new ImageIcon("logo.png");
 		this.setIconImage(logo.getImage());
 		getContentPane().setLayout(null);
-		
+
 		addWindowListener(new ProgramTerminated());
-		
+
 		this.setSize(453,350);
 		this.setTitle("Secretary options");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-		
+
 	}
-	
-		
-		public void actionPerformed(ActionEvent e) {
-		
-			if(e.getSource()==viewProgButton) {
-				new CalendarGUI();
-				
-			}else if(e.getSource()==logoutButton) {
-				LoginGUI.getInstance().setVisible(true);;
-				this.dispose(); 
-				
-			}
-			
+
+	public void actionPerformed(ActionEvent e) {
+
+		if(e.getSource()==viewProgButton) {
+			new CalendarGUI();
+
+		}else if(e.getSource()==logoutButton) {
+			LoginGUI.getInstance().setVisible(true);//pop up the already created singleton LoginGUI
+			this.dispose(); 
+
 		}
 
-		
-		 
-		public void mouseClicked(MouseEvent e) {
-			
-			ES.saveToRoomsFile();
-			ES.saveToCourseFile();
-			
-			 //path of the file to delete
-	        String filePath = "dates.ser";
-
-	        // Creating a Path object with the specified file path
-	        Path pathToDelete = Paths.get(filePath);
+	}
 
 
-	        try {
-	            Files.delete(pathToDelete);
-	            System.out.println("File deleted successfully.");
-	        } catch (IOException e1) {
-	            System.out.println("Failed to delete the file: " + e1.getMessage());
-	        }
-			
-			System.exit(0);
-			
-	    }
+	/**
+	 * Mouse listener for creating a new exam schedule (when clicking on the clickable label)
+	 */
+	public void mouseClicked(MouseEvent e) {
 
-		
-		public void mousePressed(MouseEvent e) {
+		ES.saveToRoomsFile();
+		ES.saveToCourseFile();
+
+		//path of the file to delete
+		String filePath = "dates.ser";
+
+		// Creating a Path object with the specified file path
+		Path pathToDelete = Paths.get(filePath);
+
+		try {
+			Files.delete(pathToDelete);
+			System.out.println("File deleted successfully.");
+		} catch (IOException e1) {
+			System.out.println("Failed to delete the file: " + e1.getMessage());
 		}
-		public void mouseReleased(MouseEvent e) {	
-		}
-		public void mouseEntered(MouseEvent e) {
-		}
-		public void mouseExited(MouseEvent e) {
-		}
-	 }
-	
+
+		System.exit(0);
+
+	}
+
+
+	public void mousePressed(MouseEvent e) {
+	}
+	public void mouseReleased(MouseEvent e) {	
+	}
+	public void mouseEntered(MouseEvent e) {
+	}
+	public void mouseExited(MouseEvent e) {
+	}
+}
+
 

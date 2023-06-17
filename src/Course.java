@@ -2,6 +2,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
+/**
+ * Class that represents each course object
+ * Contains a professors list, a selected rooms list, a course name(title) and the number of enrolled students.
+ * 
+ * @author Michalis Vafeiadis
+ */
+
 public class Course implements Serializable{
 
 	private static final long serialVersionUID = 2L;
@@ -36,7 +43,12 @@ public class Course implements Serializable{
 		return numberOfStudents;
 	}
 	
-//Add objects to array lists methods
+
+	/**
+	 * Method for splitting the input string of multiple professors and adding each one to the professorsList
+	 * 
+	 * @param profsInput
+	 */
 	public void addProfs(String profsInput) {
 		String[] names = profsInput.split(",");
 		
@@ -52,3 +64,5 @@ public class Course implements Serializable{
 
 
 }
+
+	
