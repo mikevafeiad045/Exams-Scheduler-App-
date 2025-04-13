@@ -2,6 +2,13 @@ Exam Scheduler App
 
 release date: 17/06/2023
 
+Design and programming:
+
+Michalis Vafeiades
+Dimitra Papadopoulou
+Stavros Samaras
+Eleni Loula
+Charina Makri
 
 Differences with Software Requirements Specifications Document (SRS):
  * 
